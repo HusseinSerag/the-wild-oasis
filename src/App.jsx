@@ -3,6 +3,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import GlobalStyles from "./styles/GlobalStyles";
 import PageNotFound from "./ui/PageNotFound";
 import Layout from "./ui/Layout";
+import Loading from "./ui/Loading";
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 const Bookings = lazy(() => import("./pages/Bookings"));
 const Cabins = lazy(() => import("./pages/Cabins"));
@@ -15,7 +16,7 @@ export default function App() {
   return (
     <>
       <GlobalStyles />
-      <Suspense fallback={<h1 />}>
+      <Suspense fallback={<Loading />}>
         <Routes>
           <Route element={<Layout />}>
             <Route index element={<Navigate replace to="/dashboard" />} />
