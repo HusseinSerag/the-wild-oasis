@@ -1,5 +1,10 @@
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
+import { GoHome } from "react-icons/go";
+import { HiOutlineCalendarDays } from "react-icons/hi2";
+import { HiOutlineHomeModern } from "react-icons/hi2";
+import { LuUsers } from "react-icons/lu";
+import { LuSettings } from "react-icons/lu";
 
 const NavList = styled.ul`
   display: flex;
@@ -8,6 +13,7 @@ const NavList = styled.ul`
 
   @media screen and (max-width: 768px) {
     flex-direction: row;
+    justify-content: space-evenly;
   }
 `;
 
@@ -48,6 +54,17 @@ const Link = styled(NavLink)`
   &.active:visited svg {
     color: var(--color-brand-600);
   }
+
+  @media screen and (max-width: 768px) {
+    &:link,
+    &:visited {
+      padding: 0.4rem 1.4rem;
+    }
+    & svg {
+      width: 2.4rem;
+      height: 2.4rem;
+    }
+  }
 `;
 
 const TextSpan = styled.span`
@@ -55,36 +72,45 @@ const TextSpan = styled.span`
     display: none;
   }
 `;
+
+const NavSection = styled.section`
+  flex: 1;
+`;
 export default function MainNav() {
   return (
-    <section>
+    <NavSection>
       <NavList>
         <li>
           <Link to="/dashboard">
+            <GoHome />
             <TextSpan>Home</TextSpan>
           </Link>
         </li>
         <li>
           <Link to="/bookings">
+            <HiOutlineCalendarDays />
             <TextSpan>Bookings</TextSpan>
           </Link>
         </li>
         <li>
           <Link to="/cabins">
+            <HiOutlineHomeModern />
             <TextSpan>Cabins</TextSpan>
           </Link>
         </li>
         <li>
           <Link to="/users">
+            <LuUsers />
             <TextSpan>Users</TextSpan>
           </Link>
         </li>
         <li>
           <Link to="/settings">
+            <LuSettings />
             <TextSpan>Settings</TextSpan>
           </Link>
         </li>
       </NavList>
-    </section>
+    </NavSection>
   );
 }
