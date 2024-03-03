@@ -14,6 +14,16 @@ const Row = styled.div`
       justify-content: space-between;
       align-items: center;
     `}
+
+   ${(props) =>
+    props.type === "h-responsive" &&
+    css`
+      justify-content: space-between;
+      align-items: center;
+      @media screen and (max-width: 768px) {
+        flex-direction: column;
+      }
+    `}
 `;
 
 Row.defaultProps = {

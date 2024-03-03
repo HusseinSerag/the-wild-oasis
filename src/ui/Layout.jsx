@@ -7,6 +7,9 @@ const Main = styled.main`
   background-color: var(--color-grey-50);
   padding: 4rem;
   overflow-y: auto;
+  @media screen and (max-width: 768px) {
+    padding: 2rem 1rem;
+  }
 `;
 
 const StyledLayout = styled.div`
