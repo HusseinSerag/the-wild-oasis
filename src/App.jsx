@@ -4,6 +4,8 @@ import GlobalStyles from "./styles/GlobalStyles";
 import PageNotFound from "./ui/PageNotFound";
 import Layout from "./ui/Layout";
 import Loading from "./ui/Loading";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 const Bookings = lazy(() => import("./pages/Bookings"));
 const Cabins = lazy(() => import("./pages/Cabins"));
@@ -12,9 +14,19 @@ const Settings = lazy(() => import("./pages/Settings"));
 const Account = lazy(() => import("./pages/Account"));
 const Login = lazy(() => import("./pages/Login"));
 
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 0,
+    },
+  },
+});
+
 export default function App() {
   return (
-    <>
+    <QueryClientProvider client={queryClient}>
+      <ReactQueryDevtools initialIsOpen={false} buttonPosition="bottom-left" />
+
       <GlobalStyles />
       <Suspense fallback={<Loading />}>
         <Routes>
@@ -31,6 +43,6 @@ export default function App() {
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </Suspense>
-    </>
+    </QueryClientProvider>
   );
 }
