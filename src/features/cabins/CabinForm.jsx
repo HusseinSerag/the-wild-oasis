@@ -1,4 +1,3 @@
-import styled from "styled-components";
 import Form from "../../ui/Form";
 import Input from "../../ui/Input";
 import Textarea from "../../ui/Textarea";
@@ -6,28 +5,43 @@ import FileInput from "../../ui/FileInput";
 import Button from "../../ui/Button";
 import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { addCabin } from "../../services/cabins";
+import { addCabin, editCabin } from "../../services/cabins";
 import toast from "react-hot-toast";
 import FormRow from "../../ui/FormRow";
 
-export default function CabinForm() {
-  const { register, handleSubmit, reset, getValues, formState } = useForm();
+export default function CabinForm({ cabin = {} }) {
+  const { id: cabinId } = cabin;
+
+  const isEditing = Boolean(cabinId);
+  const defaultValues = isEditing ? cabin : {};
+
+  const { register, handleSubmit, reset, getValues, formState } = useForm({
+    defaultValues: defaultValues,
+  });
 
   const { errors } = formState;
   const queryClient = useQueryClient();
   const { mutate, status } = useMutation({
-    mutationFn: (cabin) => addCabin(cabin),
+    mutationFn: !isEditing
+      ? (cabin) => addCabin(cabin)
+      : (cabin) => editCabin(cabin, cabinId),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["cabin"],
       });
-      toast.success("Cabin successfully created!");
+      toast.success(
+        `${
+          isEditing
+            ? "Cabin edited successfully"
+            : "Cabin successfully created!"
+        }`
+      );
       reset();
     },
     onError: (err) => toast.error(err.message),
   });
   function onSubmit(data) {
-    mutate({ ...data, image: data.image[0] });
+    mutate({ ...data, image: !isEditing ? data.image[0] : data.image });
   }
 
   const isLoading = status === "pending";
@@ -111,7 +125,7 @@ export default function CabinForm() {
           id="image"
           accept="image/*"
           {...register("image", {
-            required: "This field is required",
+            required: isEditing ? false : "This field is required",
           })}
         />
       </FormRow>
@@ -119,7 +133,9 @@ export default function CabinForm() {
         <Button variation="secondary" type="reset">
           Reset
         </Button>
-        <Button disabled={isLoading}>Add Cabin</Button>
+        <Button disabled={isLoading}>
+          {isEditing ? "Edit Cabin" : "Add Cabin"}
+        </Button>
       </FormRow>
     </Form>
   );

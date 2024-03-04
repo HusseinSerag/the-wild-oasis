@@ -3,6 +3,8 @@ import { formatCurrency } from "../../util/helpers";
 import { deleteCabin } from "../../services/cabins";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
+import { useState } from "react";
+import CabinForm from "./CabinForm";
 
 const TableRow = styled.div`
   display: grid;
@@ -84,6 +86,8 @@ export default function CabinRow({ cabin }) {
       toast.error(err.message);
     },
   });
+
+  const [openEdit, setOpenEdit] = useState(false);
   return (
     <TableRow role="row">
       <Img src={image} />
@@ -103,6 +107,8 @@ export default function CabinRow({ cabin }) {
         <button disabled={isLoading} onClick={() => mutate(id)}>
           Delete
         </button>
+        <button onClick={() => setOpenEdit((c) => !c)}>Edit</button>
+        {openEdit && <CabinForm cabin={cabin} />}
       </Item>
     </TableRow>
   );
