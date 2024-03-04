@@ -32,7 +32,7 @@ export default function PageNotFound() {
   return (
     <Container>
       <ButtonWrapper onClick={goBack}>
-        <Button type="secondary" size="sm">
+        <Button variation="secondary" size="sm">
           Return
         </Button>
       </ButtonWrapper>
