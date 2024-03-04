@@ -17,12 +17,38 @@ export async function deleteCabin(id) {
 }
 
 export async function addCabin(cabin) {
-  const { data, error } = await supabase.from("cabins").insert([cabin]);
+  const imageName = `${Math.random()}-${cabin.image.name}`.replace("/", "");
+
+  //1)upload img to bucket
+  const { data: url, error: imgError } = await supabase.storage
+    .from("cabin-images")
+    .upload(imageName, cabin.image);
+
+  if (imgError) {
+    ErrorHandle("Image could not been uploaded");
+    return;
+  }
+
+  //2)retreive image full public path
+
+  const { data } = supabase.storage.from("cabin-images").getPublicUrl(url.path);
+
+  //3)insert whole cabin data into table with dynamically fetched path
+  const newCabin = { ...cabin, image: data.publicUrl };
+
+  const { error } = await supabase.from("cabins").insert([newCabin]);
+
   if (error) {
+    await deleteAssetFromBucket(url.path);
     ErrorHandle("Failed to add Cabin!");
+    return;
   }
 }
 
 function ErrorHandle(error) {
   throw new Error(error);
+}
+
+async function deleteAssetFromBucket(path) {
+  await supabase.storage.from("cabin-images").remove(path);
 }
