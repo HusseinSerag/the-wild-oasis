@@ -24,13 +24,22 @@ const StyledLayout = styled.div`
   }
 `;
 
+const Container = styled.div`
+  max-width: 110rem;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 3.2rem;
+`;
 export default function Layout() {
   return (
     <StyledLayout>
       <Header />
       <Navbar />
       <Main>
-        <Outlet />
+        <Container>
+          <Outlet />
+        </Container>
       </Main>
     </StyledLayout>
   );
