@@ -3,7 +3,7 @@ import supabase from "./supabase";
 export async function getCabins() {
   const { data: cabins, error } = await supabase.from("cabins").select("*");
   if (error) {
-    throw new Error("cabins could not be loaded");
+    ErrorHandle("cabins could not be loaded");
   }
 
   return cabins;
@@ -12,6 +12,17 @@ export async function getCabins() {
 export async function deleteCabin(id) {
   const { error } = await supabase.from("cabins").delete().eq("id", id);
   if (error) {
-    throw new Error("Cabin couldn't be deleted, please try again later!");
+    ErrorHandle("Cabin couldn't be deleted, please try again later!");
   }
+}
+
+export async function addCabin(cabin) {
+  const { data, error } = await supabase.from("cabins").insert([cabin]);
+  if (error) {
+    ErrorHandle("Failed to add Cabin!");
+  }
+}
+
+function ErrorHandle(error) {
+  throw new Error(error);
 }
