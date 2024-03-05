@@ -9,22 +9,23 @@ const ButtonWrapper = styled.div`
   align-self: baseline;
 `;
 export default function AddCabin() {
-  const [isOpenModal, setIsOpenModal] = useState(false);
-  function handleClose() {
-    setIsOpenModal(false);
-  }
   return (
-    <>
+    <Modal>
       <ButtonWrapper>
-        <Button onClick={() => setIsOpenModal(true)} variation="primary">
-          Add Cabin
-        </Button>
+        <Modal.Button
+          opens="cabin-form"
+          render={(click) => (
+            <Button onClick={click} variation="primary">
+              Add Cabin
+            </Button>
+          )}
+        />
       </ButtonWrapper>
-      {isOpenModal && (
-        <Modal onClose={handleClose}>
-          <CabinForm onCloseModal={handleClose} />
-        </Modal>
-      )}
-    </>
+
+      <Modal.Content
+        name="cabin-form"
+        render={(onCloseModal) => <CabinForm onCloseModal={onCloseModal} />}
+      />
+    </Modal>
   );
 }

@@ -1,6 +1,15 @@
 import styled from "styled-components";
 import { IoCloseSharp } from "react-icons/io5";
 import { createPortal } from "react-dom";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import useClickOutsideModal from "../hooks/useClickOutsideModal";
 const StyledModal = styled.div`
   z-index: 2000;
   position: fixed;
@@ -36,15 +45,52 @@ const Overlay = styled.div`
 const Container = styled.div`
   overflow-y: auto;
 `;
-export default function Modal({ children, onClose }) {
-  return createPortal(
-    <Container>
-      <Overlay onClick={onClose} />
-      <StyledModal>
-        <IoCloseSharp onClick={onClose} />
-        {children}
-      </StyledModal>
-    </Container>,
-    document.body
+
+const ModalContext = createContext();
+export default function Modal({ children }) {
+  const [isOpenModal, setIsModalOpen] = useState("");
+
+  function openModal(name) {
+    setIsModalOpen(name);
+  }
+  const closeModal = useCallback(function closeModal() {
+    setIsModalOpen("");
+  }, []);
+  return (
+    <ModalContext.Provider value={{ isOpenModal, openModal, closeModal }}>
+      {children}
+    </ModalContext.Provider>
   );
 }
+
+function Button({ opens, render }) {
+  const { openModal } = useContext(ModalContext);
+
+  return render(() => openModal(opens));
+}
+
+function Content({ children, name, render }) {
+  const { isOpenModal, closeModal } = useContext(ModalContext);
+  const { ref } = useClickOutsideModal(closeModal);
+  return (
+    <>
+      {isOpenModal === name &&
+        createPortal(
+          <>
+            <Overlay>
+              <Container>
+                <StyledModal ref={ref}>
+                  <IoCloseSharp onClick={closeModal} />
+                  {render(closeModal)}
+                </StyledModal>
+              </Container>
+            </Overlay>
+          </>,
+          document.body
+        )}
+    </>
+  );
+}
+
+Modal.Button = Button;
+Modal.Content = Content;
