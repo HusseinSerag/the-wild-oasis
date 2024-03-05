@@ -21,7 +21,14 @@ export default function CabinForm({ cabin = {} }) {
   const { errors } = formState;
   const { mutate, status } = useMutateCabin({ isEditing, cabinId, reset });
   function onSubmit(data) {
-    mutate({ ...data, image: !isEditing ? data.image[0] : data.image });
+    mutate(
+      { ...data, image: !isEditing ? data.image[0] : data.image },
+      {
+        onSuccess: () => {
+          reset();
+        },
+      }
+    );
   }
 
   const isLoading = status === "pending";

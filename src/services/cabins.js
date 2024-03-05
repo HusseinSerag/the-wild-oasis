@@ -17,25 +17,35 @@ export async function deleteCabin(id) {
 }
 
 export async function addCabin(cabin) {
-  const imageName = `${Math.random()}-${cabin.image.name}`.replace("/", "");
-  //1)upload img to bucket
-  const { data: url, error: imgError } = await supabase.storage
-    .from("cabin-images")
-    .upload(imageName, cabin.image);
+  let imageName, newCabin;
 
-  if (imgError) {
-    ErrorHandle("Image could not been uploaded");
-    return;
-  }
-  //2)retreive image full public path
-  const publicUrl = getPublicURL(url.path);
-  //3)insert whole cabin data into table with dynamically fetched path
-  const newCabin = { ...cabin, image: publicUrl };
-  const { error } = await supabase.from("cabins").insert([newCabin]);
-  if (error) {
-    await deleteAssetFromBucket(url.path);
-    ErrorHandle("Failed to add Cabin!");
-    return;
+  if (typeof cabin.image !== "string") {
+    imageName = `${Math.random()}-${cabin.image.name}`.replace("/", "");
+    //1)upload img to bucket
+    const { data: url, error: imgError } = await supabase.storage
+      .from("cabin-images")
+      .upload(imageName, cabin.image);
+
+    if (imgError) {
+      ErrorHandle("Image could not been uploaded");
+      return;
+    }
+    //2)retreive image full public path
+    const publicUrl = getPublicURL(url.path);
+    //3)insert whole cabin data into table with dynamically fetched path
+    newCabin = { ...cabin, image: publicUrl };
+    const { error } = await supabase.from("cabins").insert([newCabin]);
+    if (error) {
+      await deleteAssetFromBucket(url.path);
+      ErrorHandle("Failed to add Cabin!");
+      return;
+    }
+  } else {
+    const { error } = await supabase.from("cabins").insert([cabin]);
+    if (error) {
+      ErrorHandle("Failed to add Cabin!");
+      return;
+    }
   }
 }
 function getPublicURL(path) {

@@ -36,7 +36,7 @@ const HeaderItem = styled.div`
   }
 `;
 export default function CabinTable() {
-  const { isLoading, error, data: cabins } = useCabins();
+  const { isLoading, error, cabins } = useCabins();
 
   if (isLoading) return <Spinner />;
 

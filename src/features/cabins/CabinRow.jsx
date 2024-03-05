@@ -4,6 +4,7 @@ import { formatCurrency } from "../../util/helpers";
 import { useState } from "react";
 import CabinForm from "./CabinForm";
 import useDeleteCabin from "./useDeleteCabin";
+import useMutateCabin from "./useMutateCabin";
 
 const TableRow = styled.div`
   display: grid;
@@ -72,8 +73,24 @@ export default function CabinRow({ cabin }) {
   } = cabin;
 
   const { isLoading, mutate } = useDeleteCabin();
-
+  const { mutate: duplicateCabin, status } = useMutateCabin({
+    isEditing: false,
+  });
   const [openEdit, setOpenEdit] = useState(false);
+
+  const isCreating = status === "pending";
+
+  function handleDuplicate() {
+    duplicateCabin({
+      cabinName: `copy of ${cabinName}`,
+      maxCapacity,
+      regularPrice,
+      discount,
+      image,
+      description,
+    });
+  }
+
   return (
     <TableRow role="row">
       <Img src={image} />
@@ -94,6 +111,9 @@ export default function CabinRow({ cabin }) {
         )}
       </Item>
       <Item>
+        <button disabled={isCreating} onClick={() => handleDuplicate()}>
+          Duplicate
+        </button>
         <button disabled={isLoading} onClick={() => mutate(id)}>
           Delete
         </button>
