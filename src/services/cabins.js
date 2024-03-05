@@ -1,3 +1,4 @@
+import { ErrorHandle } from "../util/helpers";
 import supabase from "./supabase";
 
 export async function getCabins() {
@@ -91,10 +92,6 @@ export async function editCabin(cabin, id) {
       .eq("id", id);
     await deleteAssetFromBucket(oldURL.split("cabin-images/"));
   }
-}
-
-function ErrorHandle(error) {
-  throw new Error(error);
 }
 
 async function deleteAssetFromBucket(path) {
