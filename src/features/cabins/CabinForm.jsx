@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form";
 import FormRow from "../../ui/FormRow";
 import useMutateCabin from "./useMutateCabin";
 
-export default function CabinForm({ cabin = {} }) {
+export default function CabinForm({ cabin = {}, onCloseModal }) {
   const { id: cabinId } = cabin;
 
   const isEditing = Boolean(cabinId);
@@ -26,6 +26,7 @@ export default function CabinForm({ cabin = {} }) {
       {
         onSuccess: () => {
           reset();
+          onCloseModal?.();
         },
       }
     );

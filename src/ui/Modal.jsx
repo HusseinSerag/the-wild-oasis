@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { IoCloseSharp } from "react-icons/io5";
-
+import { createPortal } from "react-dom";
 const StyledModal = styled.div`
   z-index: 2000;
   position: fixed;
@@ -12,11 +12,11 @@ const StyledModal = styled.div`
   overflow-y: auto;
 
   & svg {
-    width: 2.4rem;
-    height: 2.4rem;
+    width: 3rem;
+    height: 3rem;
     position: absolute;
     top: 15px;
-    left: 15px;
+    right: 15px;
     cursor: pointer;
 
     &:hover {
@@ -37,13 +37,14 @@ const Container = styled.div`
   overflow-y: auto;
 `;
 export default function Modal({ children, onClose }) {
-  return (
+  return createPortal(
     <Container>
       <Overlay onClick={onClose} />
       <StyledModal>
         <IoCloseSharp onClick={onClose} />
         {children}
       </StyledModal>
-    </Container>
+    </Container>,
+    document.body
   );
 }

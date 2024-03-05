@@ -1,19 +1,9 @@
 import CabinTable from "../features/cabins/CabinTable";
-import CabinForm from "../features/cabins/CabinForm";
 import Heading from "../ui/Heading";
 import Row from "../ui/Row";
-import Modal from "../ui/Modal";
-import Button from "../ui/Button";
-import { useState } from "react";
-import styled from "styled-components";
-const ButtonWrapper = styled.div`
-  align-self: baseline;
-`;
+import AddCabin from "./../features/cabins/AddCabin";
+
 export default function Cabins() {
-  const [showModal, setShowModal] = useState(false);
-  function handleClose() {
-    setShowModal(false);
-  }
   return (
     <>
       <Row type="h-responsive">
@@ -22,16 +12,7 @@ export default function Cabins() {
       </Row>
       <Row>
         <CabinTable />
-        <ButtonWrapper>
-          <Button onClick={() => setShowModal(true)} variation="primary">
-            Add Cabin
-          </Button>
-        </ButtonWrapper>
-        {showModal && (
-          <Modal onClose={handleClose}>
-            <CabinForm />
-          </Modal>
-        )}
+        <AddCabin />
       </Row>
     </>
   );
