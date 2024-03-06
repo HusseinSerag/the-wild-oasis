@@ -1,14 +1,7 @@
 import styled from "styled-components";
 import { IoCloseSharp } from "react-icons/io5";
 import { createPortal } from "react-dom";
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { createContext, useCallback, useContext, useState } from "react";
 import useClickOutsideModal from "../hooks/useClickOutsideModal";
 const StyledModal = styled.div`
   z-index: 2000;
@@ -69,7 +62,7 @@ function Button({ opens, render }) {
   return render(() => openModal(opens));
 }
 
-function Content({ children, name, render }) {
+function Content({ name, render }) {
   const { isOpenModal, closeModal } = useContext(ModalContext);
   const { ref } = useClickOutsideModal(closeModal);
   return (
