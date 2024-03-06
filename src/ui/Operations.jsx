@@ -1,4 +1,5 @@
 import { createContext, useContext, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import styled from "styled-components";
 const Container = styled.div`
   background-color: var(--color-grey-0);
@@ -37,8 +38,8 @@ const Item = styled.div`
 `;
 
 const OpContext = createContext();
-export default function Operations({ children }) {
-  const [name, setName] = useState("");
+export default function Operations({ children, initialValue }) {
+  const [name, setName] = useState(initialValue);
   const setChosenName = setName;
   return (
     <Container>

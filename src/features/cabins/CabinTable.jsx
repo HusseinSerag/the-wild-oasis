@@ -12,6 +12,7 @@ export default function CabinTable() {
   const discount = searchParams.get("discount");
 
   if (isLoading) return <Spinner />;
+  const data = filterCabins(cabins, discount);
 
   return (
     <Menus>
@@ -25,10 +26,19 @@ export default function CabinTable() {
           <Table.HeaderItem></Table.HeaderItem>
         </Table.Header>
         <Table.Body
-          data={cabins}
+          data={data}
           render={(cabin) => <CabinRow cabin={cabin} key={cabin.id} />}
         />
       </Table>
     </Menus>
   );
+}
+
+function filterCabins(data, key) {
+  if (!key || key === "all") return data;
+  else if (key === "discount")
+    return data.filter((cabin) => cabin.discount > 0);
+  else if (key === "no-discount")
+    return data.filter((cabin) => cabin.discount === 0);
+  else return data;
 }
