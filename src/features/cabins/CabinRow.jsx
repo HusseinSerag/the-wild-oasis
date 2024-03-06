@@ -6,26 +6,7 @@ import useMutateCabin from "./useMutateCabin";
 import EditCabins from "./EditCabins";
 import Modal from "../../ui/Modal";
 import ConfirmDelete from "../../ui/ConfirmDelete";
-
-const TableRow = styled.div`
-  display: grid;
-  column-gap: 2.4rem;
-  grid-template-columns: 100px 100px 190px 160px 130px 1fr;
-  align-items: center;
-  font-size: 1.7rem;
-  padding: 1rem 2rem;
-  font-weight: 600;
-  font-family: "Sono";
-
-  &:not(:last-child) {
-    border-bottom: 1px solid var(--color-grey-100);
-  }
-
-  @media screen and (max-width: 768px) {
-    font-size: 1.4rem;
-    padding: 0.5rem 1rem;
-  }
-`;
+import Table from "../../ui/Table";
 
 const Img = styled.img`
   display: block;
@@ -92,7 +73,7 @@ export default function CabinRow({ cabin }) {
   }
 
   return (
-    <TableRow role="row">
+    <Table.Row role="row">
       <Img src={image} />
       <Item>
         <Cabin>{cabinName}</Cabin>
@@ -133,6 +114,6 @@ export default function CabinRow({ cabin }) {
         </Modal>
         <EditCabins cabin={cabin} />
       </Item>
-    </TableRow>
+    </Table.Row>
   );
 }
