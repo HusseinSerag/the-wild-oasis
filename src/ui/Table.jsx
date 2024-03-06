@@ -79,7 +79,7 @@ export default function Table({ children, columns }) {
   const tableColumns = columns;
   return (
     <TableContext.Provider value={{ tableColumns }}>
-      <StyledTable role="table">{children}</StyledTable>;
+      <StyledTable role="table">{children}</StyledTable>
     </TableContext.Provider>
   );
 }

@@ -5,8 +5,12 @@ import useDeleteCabin from "./useDeleteCabin";
 import useMutateCabin from "./useMutateCabin";
 import EditCabins from "./EditCabins";
 import Modal from "../../ui/Modal";
-import ConfirmDelete from "../../ui/ConfirmDelete";
+import DeleteCabin from "./DeleteCabin";
+
 import Table from "../../ui/Table";
+import Menus from "./../../ui/Menus";
+
+import { FaCopy } from "react-icons/fa";
 
 const Img = styled.img`
   display: block;
@@ -92,27 +96,32 @@ export default function CabinRow({ cabin }) {
         )}
       </Item>
       <Item>
-        <button disabled={isCreating} onClick={() => handleDuplicate()}>
-          Duplicate
-        </button>
-        <Modal>
-          <Modal.Button
-            opens="delete"
-            render={(onClick) => <button onClick={onClick}>Delete</button>}
-          />
-          <Modal.Content
-            name="delete"
-            render={(onClose) => (
-              <ConfirmDelete
-                onClose={onClose}
-                resourceName={`${cabinName}`}
-                onConfirm={() => mutate(id)}
-                disabled={isLoading}
-              />
-            )}
-          />
-        </Modal>
-        <EditCabins cabin={cabin} />
+        <>
+          <Menus.Menu>
+            <Menus.Toggle name={`${id}`} />
+
+            <Menus.List name={`${id}`}>
+              <>
+                <Menus.Action onClick={() => handleDuplicate()}>
+                  {" "}
+                  <div disabled={isCreating}>
+                    <FaCopy />
+                  </div>
+                  Duplicate
+                </Menus.Action>
+
+                <DeleteCabin
+                  cabinName={cabinName}
+                  id={id}
+                  mutate={mutate}
+                  isLoading={isLoading}
+                />
+
+                <EditCabins cabin={cabin} />
+              </>
+            </Menus.List>
+          </Menus.Menu>
+        </>
       </Item>
     </Table.Row>
   );

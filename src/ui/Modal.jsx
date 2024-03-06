@@ -46,9 +46,10 @@ export default function Modal({ children }) {
   function openModal(name) {
     setIsModalOpen(name);
   }
-  const closeModal = useCallback(function closeModal() {
+  function closeModal() {
+    console.log("called");
     setIsModalOpen("");
-  }, []);
+  }
   return (
     <ModalContext.Provider value={{ isOpenModal, openModal, closeModal }}>
       {children}
@@ -59,7 +60,9 @@ export default function Modal({ children }) {
 function Button({ opens, render }) {
   const { openModal } = useContext(ModalContext);
 
-  return render(() => openModal(opens));
+  return render(() => {
+    openModal(opens);
+  });
 }
 
 function Content({ name, render }) {
