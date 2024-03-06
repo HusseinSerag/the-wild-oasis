@@ -3,14 +3,16 @@ import { formatCurrency } from "../../util/helpers";
 
 import useDeleteCabin from "./useDeleteCabin";
 import useMutateCabin from "./useMutateCabin";
-import EditCabins from "./EditCabins";
+
 import Modal from "../../ui/Modal";
-import DeleteCabin from "./DeleteCabin";
 
 import Table from "../../ui/Table";
 import Menus from "./../../ui/Menus";
 
-import { FaCopy } from "react-icons/fa";
+import { FaCopy, FaEdit } from "react-icons/fa";
+import CabinForm from "./CabinForm";
+import { MdDelete } from "react-icons/md";
+import ConfirmDelete from "../../ui/ConfirmDelete";
 
 const Img = styled.img`
   display: block;
@@ -96,32 +98,58 @@ export default function CabinRow({ cabin }) {
         )}
       </Item>
       <Item>
-        <>
+        <Modal>
           <Menus.Menu>
             <Menus.Toggle name={`${id}`} />
 
             <Menus.List name={`${id}`}>
-              <>
-                <Menus.Action onClick={() => handleDuplicate()}>
-                  {" "}
-                  <div disabled={isCreating}>
-                    <FaCopy />
-                  </div>
-                  Duplicate
-                </Menus.Action>
+              <Menus.Action onClick={() => handleDuplicate()}>
+                {" "}
+                <div disabled={isCreating}>
+                  <FaCopy />
+                </div>
+                Duplicate
+              </Menus.Action>
 
-                <DeleteCabin
-                  cabinName={cabinName}
-                  id={id}
-                  mutate={mutate}
-                  isLoading={isLoading}
-                />
+              <Modal.Button
+                opens="delete"
+                render={(onClick) => (
+                  <Menus.Action onClick={() => onClick()}>
+                    <MdDelete />
+                    Delete
+                  </Menus.Action>
+                )}
+              />
 
-                <EditCabins cabin={cabin} />
-              </>
+              <Modal.Button
+                render={(click) => (
+                  <Menus.Action onClick={click}>
+                    <FaEdit />
+                    Edit
+                  </Menus.Action>
+                )}
+                opens="edit-cabin"
+              />
             </Menus.List>
+            <Modal.Content
+              name="edit-cabin"
+              render={(close) => (
+                <CabinForm cabin={cabin} onCloseModal={close} />
+              )}
+            />
+            <Modal.Content
+              name="delete"
+              render={(onClose) => (
+                <ConfirmDelete
+                  onClose={onClose}
+                  resourceName={`${cabinName}`}
+                  onConfirm={() => mutate(id)}
+                  disabled={isLoading}
+                />
+              )}
+            />
           </Menus.Menu>
-        </>
+        </Modal>
       </Item>
     </Table.Row>
   );
