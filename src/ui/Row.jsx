@@ -22,6 +22,7 @@ const Row = styled.div`
       align-items: center;
       @media screen and (max-width: 768px) {
         flex-direction: column;
+        gap: 1rem;
       }
     `}
 `;

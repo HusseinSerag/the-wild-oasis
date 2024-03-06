@@ -4,9 +4,12 @@ import CabinRow from "./CabinRow";
 import useCabins from "./useCabins";
 import Table from "../../ui/Table";
 import Menus from "../../ui/Menus";
+import { useSearchParams } from "react-router-dom";
 
 export default function CabinTable() {
   const { isLoading, error, cabins } = useCabins();
+  const [searchParams] = useSearchParams();
+  const discount = searchParams.get("discount");
 
   if (isLoading) return <Spinner />;
 
