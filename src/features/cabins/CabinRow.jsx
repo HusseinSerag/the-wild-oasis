@@ -1,10 +1,11 @@
 import styled from "styled-components";
 import { formatCurrency } from "../../util/helpers";
 
-import { useState } from "react";
-import CabinForm from "./CabinForm";
 import useDeleteCabin from "./useDeleteCabin";
 import useMutateCabin from "./useMutateCabin";
+import EditCabins from "./EditCabins";
+import Modal from "../../ui/Modal";
+import ConfirmDelete from "../../ui/ConfirmDelete";
 
 const TableRow = styled.div`
   display: grid;
@@ -76,7 +77,6 @@ export default function CabinRow({ cabin }) {
   const { mutate: duplicateCabin, status } = useMutateCabin({
     isEditing: false,
   });
-  const [openEdit, setOpenEdit] = useState(false);
 
   const isCreating = status === "pending";
 
@@ -114,11 +114,24 @@ export default function CabinRow({ cabin }) {
         <button disabled={isCreating} onClick={() => handleDuplicate()}>
           Duplicate
         </button>
-        <button disabled={isLoading} onClick={() => mutate(id)}>
-          Delete
-        </button>
-        <button onClick={() => setOpenEdit((c) => !c)}>Edit</button>
-        {openEdit && <CabinForm cabin={cabin} />}
+        <Modal>
+          <Modal.Button
+            opens="delete"
+            render={(onClick) => <button onClick={onClick}>Delete</button>}
+          />
+          <Modal.Content
+            name="delete"
+            render={(onClose) => (
+              <ConfirmDelete
+                onClose={onClose}
+                resourceName={`${cabinName}`}
+                onConfirm={() => mutate(id)}
+                disabled={isLoading}
+              />
+            )}
+          />
+        </Modal>
+        <EditCabins cabin={cabin} />
       </Item>
     </TableRow>
   );
