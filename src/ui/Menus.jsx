@@ -2,7 +2,7 @@ import { createContext, useContext, useState } from "react";
 import styled from "styled-components";
 
 import { HiDotsVertical } from "react-icons/hi";
-import { createPortal } from "react-dom";
+
 import useClickOutsideModal from "../hooks/useClickOutsideModal";
 
 const StyledMenu = styled.div`
@@ -45,11 +45,16 @@ const StyledList = styled.ul`
 const StyledButton = styled.button`
   width: 100%;
   text-align: left;
+  display: flex;
+  align-items: center;
   background: none;
   border: none;
   padding: 1.2rem 2.4rem;
   font-size: 1.4rem;
   transition: all 0.2s;
+  color: var(--color-grey-700);
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
 
   display: flex;
   align-items: center;

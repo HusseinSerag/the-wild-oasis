@@ -13,6 +13,7 @@ import { FaCopy, FaEdit } from "react-icons/fa";
 import CabinForm from "./CabinForm";
 import { MdDelete } from "react-icons/md";
 import ConfirmDelete from "../../ui/ConfirmDelete";
+import Item from "../../ui/Item";
 
 const Img = styled.img`
   display: block;
@@ -21,19 +22,7 @@ const Img = styled.img`
   object-fit: cover;
   object-position: center;
 `;
-const Item = styled.div`
-  padding: 1rem 2rem;
 
-  @media screen and (max-width: 1024px) {
-    font-size: 1.5rem;
-    padding: 0.8rem 1.4rem;
-  }
-
-  @media screen and (max-width: 768px) {
-    font-size: 1.3rem;
-    padding: 0.5rem 1rem;
-  }
-`;
 const Cabin = styled.div`
   color: var(--color-grey-600);
 `;

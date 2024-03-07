@@ -5,12 +5,13 @@ const TableContext = createContext();
 const StyledTableHeader = styled.header`
   display: grid;
   ${(props) => css`
-    grid-template-columns: ${props.columns};
+    grid-template-columns: ${props.columns} 40px;
   `};
 
   align-items: center;
   background-color: var(--color-grey-50);
   border-bottom: 1px solid var(--color-grey-100);
+
   text-transform: uppercase;
   font-weight: 600;
   color: var(--color-grey-600);
@@ -30,7 +31,7 @@ const HeaderItem = styled.div`
   height: 100%;
 
   @media screen and (max-width: 768px) {
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     padding: 1rem;
   }
 `;
@@ -49,7 +50,7 @@ const Footer = styled.footer`
 `;
 const StyledTableRow = styled.div`
   display: grid;
-
+  gap: 0.1rem;
   ${(props) => css`
     grid-template-columns: ${props.columns};
   `};

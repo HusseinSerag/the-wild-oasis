@@ -26,6 +26,7 @@ export default function CabinTable() {
           <Table.HeaderItem>Price</Table.HeaderItem>
           <Table.HeaderItem>Discount</Table.HeaderItem>
           <Table.HeaderItem></Table.HeaderItem>
+          <Table.HeaderItem></Table.HeaderItem>
         </Table.Header>
         <Table.Body
           data={data}
