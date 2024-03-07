@@ -9,10 +9,12 @@ import { useSearchParams } from "react-router-dom";
 export default function CabinTable() {
   const { isLoading, error, cabins } = useCabins();
   const [searchParams] = useSearchParams();
-  const discount = searchParams.get("discount");
 
   if (isLoading) return <Spinner />;
-  const data = filterCabins(cabins, discount);
+  const discount = searchParams.get("discount");
+  const sort = searchParams.get("sort");
+  const filteredData = filterCabins(cabins, discount);
+  const data = sortCabins(filteredData, sort);
 
   return (
     <Menus>
@@ -41,4 +43,21 @@ function filterCabins(data, key) {
   else if (key === "no-discount")
     return data.filter((cabin) => cabin.discount === 0);
   else return data;
+}
+
+function sortCabins(data, key) {
+  if (!key) return data;
+  else if (key === "asc-name") {
+    return data.slice().sort((a, b) => a.cabinName.localeCompare(b.cabinName));
+  } else if (key === "desc-name") {
+    return data.slice().sort((a, b) => b.cabinName.localeCompare(a.cabinName));
+  } else if (key === "asc-price") {
+    return data.slice().sort((a, b) => a.regularPrice - b.regularPrice);
+  } else if (key === "desc-price") {
+    return data.slice().sort((a, b) => b.regularPrice - a.regularPrice);
+  } else if (key === "asc-cap") {
+    return data.slice().sort((a, b) => a.maxCapacity - b.maxCapacity);
+  } else if (key === "desc-cap") {
+    return data.slice().sort((a, b) => b.maxCapacity - a.maxCapacity);
+  } else return data;
 }
