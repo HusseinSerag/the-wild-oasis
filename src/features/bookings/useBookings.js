@@ -6,14 +6,12 @@ export function useBookings() {
   const [searchParams] = useSearchParams();
   const filter = searchParams.get("status") || "all";
   const order = searchParams.get("sort") || "";
+  const page = +searchParams.get("page") || 0;
 
-  const {
-    data: bookings,
-    isLoading,
-    error,
-  } = useQuery({
-    queryKey: ["bookings", filter, order],
-    queryFn: () => getBookings(filter, order),
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["bookings", filter, order, page],
+    queryFn: () => getBookings(filter, order, page),
   });
-  return { bookings, isLoading, error };
+
+  return { isLoading, error, data };
 }

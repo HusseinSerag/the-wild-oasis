@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa6";
+import { useSearchParams } from "react-router-dom";
 const Container = styled.div`
   flex: 1;
   display: flex;
@@ -30,17 +31,40 @@ const Buttons = styled.div`
   display: flex;
   gap: 1rem;
 `;
-export default function Pagination() {
+export default function Pagination({ total, activePage }) {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const page = searchParams.get("page") || 0;
+  const from = +page * 10;
+  const to = +page * 10 + activePage;
+
+  const previousDisabled = +page === 0;
+  const nextDisabled = to >= total;
+  function handleNext() {
+    if (!nextDisabled) {
+      searchParams.set("page", +page + 1);
+      setSearchParams(searchParams);
+    }
+  }
+
+  function handlePrevious() {
+    if (!previousDisabled) {
+      searchParams.set("page", +page - 1);
+
+      setSearchParams(searchParams);
+    }
+  }
+
   return (
     <Container>
       <div>
-        Showing <Bold>1</Bold> to <Bold>10</Bold> of <Bold>38</Bold> results
+        Showing <Bold>{from + 1}</Bold> to <Bold>{to}</Bold> of{" "}
+        <Bold>{total}</Bold> results
       </div>
       <Buttons>
-        <Button>
+        <Button disabled={previousDisabled} onClick={handlePrevious}>
           <FaAngleLeft /> Previous
         </Button>
-        <Button>
+        <Button disabled={nextDisabled} onClick={handleNext}>
           Next <FaAngleRight />
         </Button>
       </Buttons>

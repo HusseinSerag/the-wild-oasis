@@ -7,10 +7,13 @@ import { useBookings } from "./useBookings";
 import Pagination from "../../ui/Pagination";
 
 export default function BookingsTable() {
-  const { bookings, isLoading } = useBookings();
+  const { data, isLoading } = useBookings();
 
   if (isLoading) return <Spinner />;
 
+  const { booking: bookings, count } = data;
+  const totalBookings = count;
+  const activePage = bookings.length;
   return (
     <Table columns="140px 200px 240px 180px 160px 180px">
       <Table.Header>
@@ -26,7 +29,9 @@ export default function BookingsTable() {
         render={(booking) => <BookingsRow booking={booking} key={booking.id} />}
       ></Table.Body>
       <Table.Footer>
-        <Pagination />
+        {bookings?.length > 0 && (
+          <Pagination activePage={activePage} total={totalBookings} />
+        )}
       </Table.Footer>
     </Table>
   );

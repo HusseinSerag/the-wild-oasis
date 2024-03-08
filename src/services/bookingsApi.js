@@ -14,10 +14,10 @@ export async function getBooking(id) {
   return bookings;
 }
 
-export async function getBookings(filter, order) {
+export async function getBookings(filter, order, page) {
   const BASE_QUERY = supabase
     .from("bookings")
-    .select("*,cabins(cabinName),guests(fullName,email)");
+    .select("*,cabins(cabinName),guests(fullName,email)", { count: "exact" });
   let response;
   if (filter === "all") {
     response = BASE_QUERY;
@@ -25,17 +25,20 @@ export async function getBookings(filter, order) {
     response = BASE_QUERY.eq("status", filter);
   }
 
-  if (order === "") {
-    response = await response;
-  } else {
+  if (order !== "") {
     const [ascending, sortBy] = order.split("-");
 
-    response = await response.order(sortBy, { ascending: ascending === "asc" });
+    response = response.order(sortBy, { ascending: ascending === "asc" });
   }
 
-  const { data: booking, error } = response;
+  const from = +page * 10;
+  const to = +page * 10 + 9;
+
+  response = await response.range(from, to);
+  const { data: booking, error, count } = response;
   if (error) {
     ErrorHandle("Problem occured while fetching the bookings");
   }
-  return booking;
+
+  return { booking, count };
 }
