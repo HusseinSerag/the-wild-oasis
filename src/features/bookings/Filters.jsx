@@ -7,6 +7,7 @@ export default function Filters() {
 
   function handleDiscount(value) {
     searchParams.set("status", value);
+    searchParams.set("page", 0);
     setSearchParams(searchParams);
   }
   return (

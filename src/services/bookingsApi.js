@@ -1,3 +1,4 @@
+import { PAGE_SIZE } from "../util/constants";
 import { ErrorHandle } from "../util/helpers";
 import supabase from "./supabase";
 
@@ -31,8 +32,8 @@ export async function getBookings(filter, order, page) {
     response = response.order(sortBy, { ascending: ascending === "asc" });
   }
 
-  const from = +page * 10;
-  const to = +page * 10 + 9;
+  const from = +page * PAGE_SIZE;
+  const to = from + PAGE_SIZE - 1;
 
   response = await response.range(from, to);
   const { data: booking, error, count } = response;

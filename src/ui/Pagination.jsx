@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa6";
 import { useSearchParams } from "react-router-dom";
+import { PAGE_SIZE } from "../util/constants";
 const Container = styled.div`
   flex: 1;
   display: flex;
@@ -31,14 +32,18 @@ const Buttons = styled.div`
   display: flex;
   gap: 1rem;
 `;
+
 export default function Pagination({ total, activePage }) {
   const [searchParams, setSearchParams] = useSearchParams();
   const page = searchParams.get("page") || 0;
-  const from = +page * 10;
-  const to = +page * 10 + activePage;
+  const from = +page * PAGE_SIZE;
+  const to = +page * PAGE_SIZE + activePage;
 
   const previousDisabled = +page === 0;
   const nextDisabled = to >= total;
+
+  if (previousDisabled && nextDisabled) return;
+
   function handleNext() {
     if (!nextDisabled) {
       searchParams.set("page", +page + 1);
