@@ -4,6 +4,7 @@ import Spinner from "../../ui/Spinner";
 import BookingsRow from "./BookingsRow";
 
 import { useBookings } from "./useBookings";
+import Pagination from "../../ui/Pagination";
 
 export default function BookingsTable() {
   const { bookings, isLoading } = useBookings();
@@ -19,12 +20,14 @@ export default function BookingsTable() {
         <Table.HeaderItem>status</Table.HeaderItem>
         <Table.HeaderItem>amount</Table.HeaderItem>
         <Table.HeaderItem></Table.HeaderItem>
-        <Table.HeaderItem></Table.HeaderItem>
       </Table.Header>
       <Table.Body
         data={bookings}
         render={(booking) => <BookingsRow booking={booking} key={booking.id} />}
       ></Table.Body>
+      <Table.Footer>
+        <Pagination />
+      </Table.Footer>
     </Table>
   );
 }

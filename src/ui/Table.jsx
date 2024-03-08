@@ -5,7 +5,7 @@ const TableContext = createContext();
 const StyledTableHeader = styled.header`
   display: grid;
   ${(props) => css`
-    grid-template-columns: ${props.columns} 40px;
+    grid-template-columns: ${props.columns};
   `};
 
   align-items: center;
@@ -21,7 +21,7 @@ const StyledTableHeader = styled.header`
 const StyledTable = styled.div`
   border: 1px solid var(--color-grey-200);
   font-size: 1.4rem;
-  background-color: var(--color-grey-0);
+  background-color: var(--color-grey-50);
   border-radius: var(--border-radius-sm);
   overflow-x: auto;
 `;
@@ -37,13 +37,16 @@ const HeaderItem = styled.div`
 `;
 const StyledBody = styled.section`
   margin: 0.4rem 0;
+  background-color: var(--color-grey-0);
 `;
 
-const Footer = styled.footer`
+const StyledFooter = styled.footer`
   background-color: var(--color-grey-50);
   display: flex;
+  width: ${(props) => props.width}px;
   justify-content: center;
   padding: 1.2rem;
+
   &:not(:has(*)) {
     display: none;
   }
@@ -51,12 +54,13 @@ const Footer = styled.footer`
 const StyledTableRow = styled.div`
   display: grid;
   gap: 0.1rem;
+  background-color: var(--color-grey-0);
   ${(props) => css`
     grid-template-columns: ${props.columns};
   `};
   align-items: center;
   font-size: 1.7rem;
-  padding: 1rem 2rem;
+
   font-weight: 600;
   font-family: "Sono";
 
@@ -66,7 +70,6 @@ const StyledTableRow = styled.div`
 
   @media screen and (max-width: 768px) {
     font-size: 1.4rem;
-    padding: 0.5rem 1rem;
   }
 `;
 const Empty = styled.p`
@@ -76,6 +79,16 @@ const Empty = styled.p`
   margin: 2.4rem;
 `;
 
+function Footer({ children }) {
+  const { tableColumns } = useContext(TableContext);
+  const totalWidth = tableColumns
+    .split(" ")
+    .map((el) => el.replace("px", ""))
+    .map(Number)
+    .reduce((prev, current) => prev + current, 0);
+
+  return <StyledFooter width={totalWidth}>{children}</StyledFooter>;
+}
 export default function Table({ children, columns }) {
   const tableColumns = columns;
   return (

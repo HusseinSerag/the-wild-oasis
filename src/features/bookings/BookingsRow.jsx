@@ -44,6 +44,17 @@ const StartEnd = styled.div`
   color: var(--color-grey-500);
 `;
 
+const Vertical = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+`;
+
+const FlexRight = styled.div`
+  display: flex;
+  justify-content: right;
+  width: 100%;
+`;
 const statusToTagName = {
   unconfirmed: "blue",
   "checked-in": "green",
@@ -54,21 +65,25 @@ export default function BookingsRow({ booking }) {
     <Table.Row>
       <Item>{booking.cabins.cabinName}</Item>
       <Item>
-        <FullName>{booking.guests.fullName}</FullName>
-        <Email>{booking.guests.email}</Email>
+        <Vertical>
+          <FullName>{booking.guests.fullName}</FullName>
+          <Email>{booking.guests.email}</Email>
+        </Vertical>
       </Item>
       <Item>
-        <NumOfNights>
-          {isToday(new Date(booking.startDate))
-            ? "Today"
-            : formatDistanceFromNow(booking.startDate)}{" "}
-          <Arrow>&rarr;</Arrow>
-          {booking.numNights} night stay
-        </NumOfNights>
-        <StartEnd>
-          {format(new Date(booking.startDate), "MMM dd yyyy")} -{" "}
-          {format(new Date(booking.endDate), "MMM dd yyyy")}
-        </StartEnd>
+        <Vertical>
+          <NumOfNights>
+            {isToday(new Date(booking.startDate))
+              ? "Today"
+              : formatDistanceFromNow(booking.startDate)}{" "}
+            <Arrow>&rarr;</Arrow>
+            {booking.numNights} night stay
+          </NumOfNights>
+          <StartEnd>
+            {format(new Date(booking.startDate), "MMM dd yyyy")} -{" "}
+            {format(new Date(booking.endDate), "MMM dd yyyy")}
+          </StartEnd>
+        </Vertical>
       </Item>
       <Item>
         <Tag type={statusToTagName[booking.status]}>
@@ -77,23 +92,25 @@ export default function BookingsRow({ booking }) {
       </Item>
       <Item>{formatCurrency(booking.totalPrice)}</Item>
       <Item>
-        <Menus>
-          <Menus.Menu>
-            <Menus.Toggle name={booking.cabinId} />
-            <Menus.List name={booking.cabinId}>
-              <Menus.Action>
-                <FaEye /> See Details
-              </Menus.Action>
-              <Menus.Action>
-                <PiCalendarCheckBold /> Check in
-              </Menus.Action>
-              <Menus.Action>
-                {" "}
-                <MdDelete /> Delete Booking
-              </Menus.Action>
-            </Menus.List>
-          </Menus.Menu>
-        </Menus>
+        <FlexRight>
+          <Menus>
+            <Menus.Menu>
+              <Menus.Toggle name={booking.cabinId} />
+              <Menus.List name={booking.cabinId}>
+                <Menus.Action>
+                  <FaEye /> See Details
+                </Menus.Action>
+                <Menus.Action>
+                  <PiCalendarCheckBold /> Check in
+                </Menus.Action>
+                <Menus.Action>
+                  {" "}
+                  <MdDelete /> Delete Booking
+                </Menus.Action>
+              </Menus.List>
+            </Menus.Menu>
+          </Menus>
+        </FlexRight>
       </Item>
     </Table.Row>
   );

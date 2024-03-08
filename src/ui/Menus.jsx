@@ -10,6 +10,7 @@ const StyledMenu = styled.div`
   align-items: center;
   justify-content: flex-end;
   position: relative;
+  width: 100%;
 `;
 
 const StyledToggle = styled.button`
@@ -85,7 +86,7 @@ export default function Menus({ children }) {
   }
   return (
     <MenuContext.Provider value={{ active, toggle, close }}>
-      <div>{children}</div>
+      <>{children}</>
     </MenuContext.Provider>
   );
 }

@@ -14,8 +14,8 @@ export default function BookingTableOperations() {
       <Sort
         name="sort"
         options={[
-          { value: "asc-startDate", label: "Sort by date (recent first)" },
-          { value: "desc-startDate", label: "Sort by date (earlier first)" },
+          { value: "desc-startDate", label: "Sort by date (recent first)" },
+          { value: "asc-startDate", label: "Sort by date (earlier first)" },
           { value: "asc-totalPrice", label: "Sort by amount (low first)" },
           { value: "desc-totalPrice", label: "Sort by amount (high first)" },
         ]}
