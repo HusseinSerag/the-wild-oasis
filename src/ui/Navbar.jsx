@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import Logo from "./Logo";
 import MainNav from "./MainNav";
+import Uploader from "../../data/Uploader";
 
 const StyledNavbar = styled.nav`
   background-color: var(--color-grey-0);
@@ -38,6 +39,7 @@ export default function Navbar() {
         <Logo />
       </LogoDisplay>
       <MainNav />
+      <Uploader />
     </StyledNavbar>
   );
 }

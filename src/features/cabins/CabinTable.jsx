@@ -11,8 +11,10 @@ export default function CabinTable() {
   const [searchParams] = useSearchParams();
 
   if (isLoading) return <Spinner />;
+
   const discount = searchParams.get("discount");
   const sort = searchParams.get("sort");
+
   const filteredData = filterCabins(cabins, discount);
   const data = sortCabins(filteredData, sort);
 

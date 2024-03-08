@@ -20,7 +20,11 @@ export default function Sort({ options, name, ...props }) {
     setSearchParams(searchParams);
   }
   return (
-    <Select onChange={(e) => handleSort(e.target.value)} {...props}>
+    <Select
+      onChange={(e) => handleSort(e.target.value)}
+      {...props}
+      value={searchParams.get(name) || ""}
+    >
       {options.map((option) => (
         <option key={option.value} value={option.value}>
           {option.label}

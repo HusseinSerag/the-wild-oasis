@@ -23,9 +23,7 @@ export default function BookingsTable() {
       </Table.Header>
       <Table.Body
         data={bookings}
-        render={(booking) => (
-          <BookingsRow booking={booking} key={booking.cabinId} />
-        )}
+        render={(booking) => <BookingsRow booking={booking} key={booking.id} />}
       ></Table.Body>
     </Table>
   );

@@ -22,6 +22,8 @@ const Item = styled.div`
   font-size: 1.5rem;
   font-weight: 600;
   text-align: center;
+  display: flex;
+  align-items: center;
 
   &:hover {
     background-color: var(--color-brand-600);

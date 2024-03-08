@@ -14,11 +14,26 @@ export async function getBooking(id) {
   return bookings;
 }
 
-export async function getBookings() {
-  const { data: booking, error } = await supabase
+export async function getBookings(filter, order) {
+  const BASE_QUERY = supabase
     .from("bookings")
     .select("*,cabins(cabinName),guests(fullName,email)");
+  let response;
+  if (filter === "all") {
+    response = BASE_QUERY;
+  } else {
+    response = BASE_QUERY.eq("status", filter);
+  }
 
+  if (order === "") {
+    response = await response;
+  } else {
+    const [ascending, sortBy] = order.split("-");
+
+    response = await response.order(sortBy, { ascending: ascending === "asc" });
+  }
+
+  const { data: booking, error } = response;
   if (error) {
     ErrorHandle("Problem occured while fetching the bookings");
   }
