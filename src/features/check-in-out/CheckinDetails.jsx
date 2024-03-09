@@ -13,6 +13,7 @@ import Checkbox from "../../ui/Checkbox";
 import { formatCurrency } from "../../util/helpers";
 import useCheckin from "./useCheckin";
 import toast from "react-hot-toast";
+import useSettings from "../settings/useSettings";
 const Container = styled.div`
   display: flex;
   justify-content: space-between;
@@ -55,26 +56,52 @@ const Box = styled.div`
 `;
 export default function CheckInDetails() {
   const [confirmPayment, setConfirmPayment] = useState(false);
-
+  const [addBreakfast, setAddBreakfast] = useState(false);
   const go = UseNavigateToSpecificPage();
   const { booking, isLoading, error } = useBooking();
 
   const { isLoading: isCheckingin, checkinGuest } = useCheckin();
 
+  const { settings, isLoading: isLoadingSettings } = useSettings();
+
   useEffect(
     function () {
       setConfirmPayment(booking?.isPaid || false);
+      setAddBreakfast(booking?.hasBreakfast || false);
     },
-    [booking?.isPaid]
+    [booking?.isPaid, booking?.hasBreakfast]
   );
-  if (isLoading) return <Spinner />;
+
+  if (isLoading || isLoadingSettings) return <Spinner />;
   if (error) return <Heading>{error.message}</Heading>;
 
+  const breakfastPrice =
+    settings.breakfastPrice * booking.numNights * booking.numGuests;
+
+  const onSuccess = () => go("/bookings?status=checked-in");
   function handleCheckin() {
     if (!confirmPayment) return;
-
-    checkinGuest(booking.id);
-    go("/bookings?status=checked-in");
+    if (addBreakfast) {
+      checkinGuest(
+        {
+          id: booking.id,
+          breakfast: {
+            hasBreakfast: true,
+            extraPrice: breakfastPrice,
+            totalPrice: booking.totalPrice + breakfastPrice,
+          },
+        },
+        {
+          onSuccess: onSuccess,
+        }
+      );
+    } else
+      checkinGuest(
+        { id: booking.id, breakfast: {} },
+        {
+          onSuccess: onSuccess,
+        }
+      );
   }
   return (
     <>
@@ -88,14 +115,36 @@ export default function CheckInDetails() {
         </Button>
       </Container>
       <BookingBox booking={booking} />
+      {!booking.hasBreakfast && (
+        <Box>
+          <Checkbox
+            value={addBreakfast}
+            onChange={() => {
+              setAddBreakfast((c) => !c);
+              setConfirmPayment(false);
+            }}
+            label="breakfast"
+          >
+            Want to add breakfast for {formatCurrency(breakfastPrice)}?
+          </Checkbox>
+        </Box>
+      )}
+
       <Box>
         <Checkbox
           label="confirm"
           value={confirmPayment}
           onChange={() => setConfirmPayment((c) => !c)}
+          disabled={confirmPayment}
         >
           I confirm that {booking.guests.fullName} has paid in full amount of{" "}
-          {formatCurrency(booking.totalPrice)}
+          {addBreakfast
+            ? `${formatCurrency(
+                booking.totalPrice + breakfastPrice
+              )} (${formatCurrency(booking.totalPrice)} + ${formatCurrency(
+                breakfastPrice
+              )})`
+            : formatCurrency(booking.totalPrice)}
         </Checkbox>
       </Box>
       <ButtonGroup>

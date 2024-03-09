@@ -12,10 +12,16 @@ const StyledCheckbox = styled.div`
   align-items: center;
 `;
 
-export default function Checkbox({ children, label, value, onChange }) {
+export default function Checkbox({
+  children,
+  label,
+  value,
+  onChange,
+  disabled,
+}) {
   return (
     <StyledCheckbox>
-      <Box id={label} checked={value} disabled={value} onChange={onChange} />
+      <Box id={label} checked={value} disabled={disabled} onChange={onChange} />
 
       <label htmlFor={label}>{children}</label>
     </StyledCheckbox>

@@ -17,6 +17,7 @@ import toast from "react-hot-toast";
 import { statusToTagName } from "../../util/constants";
 import useDeleteBooking from "./useDeleteBooking";
 import UseNavigateToSpecificPage from "../../hooks/UseGoBack";
+import { IoDownloadOutline } from "react-icons/io5";
 
 const FullName = styled.div`
   font-family: "Poppins";
@@ -68,6 +69,8 @@ const FlexRight = styled.div`
 export default function BookingsRow({ booking }) {
   const { deleteCurrentBooking, isDeleting } = useDeleteBooking();
   const go = UseNavigateToSpecificPage();
+
+  function handleCheckout() {}
   return (
     <Table.Row>
       <Item>{booking.cabins.cabinName}</Item>
@@ -111,6 +114,11 @@ export default function BookingsRow({ booking }) {
                   {booking.status === "unconfirmed" && (
                     <Menus.Action onClick={() => go(`/checkin/${booking.id}`)}>
                       <PiCalendarCheckBold /> Check in
+                    </Menus.Action>
+                  )}
+                  {booking.status === "checked-in" && (
+                    <Menus.Action onClick={handleCheckout}>
+                      <IoDownloadOutline /> Check out
                     </Menus.Action>
                   )}
                   <Modal.Button
