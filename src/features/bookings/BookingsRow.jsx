@@ -8,6 +8,13 @@ import { MdDelete } from "react-icons/md";
 import { format, isToday } from "date-fns";
 import { formatCurrency, formatDistanceFromNow } from "../../util/helpers";
 import Tag from "../../ui/Tag";
+import { useNavigate } from "react-router-dom";
+import ConfirmDelete from "../../ui/ConfirmDelete";
+import Modal from "../../ui/Modal";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { deleteBooking } from "../../services/bookingsApi";
+import toast from "react-hot-toast";
+import { statusToTagName } from "../../util/constants";
 
 const FullName = styled.div`
   font-family: "Poppins";
@@ -55,12 +62,20 @@ const FlexRight = styled.div`
   justify-content: right;
   width: 100%;
 `;
-const statusToTagName = {
-  unconfirmed: "blue",
-  "checked-in": "green",
-  "checked-out": "silver",
-};
+
 export default function BookingsRow({ booking }) {
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const { mutate: deleteCurrentBooking, isLoading } = useMutation({
+    mutationFn: deleteBooking,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["bookings"],
+      });
+      toast.success("Cabin deleted successfully");
+    },
+    onError: (error) => toast.error(error.message),
+  });
   return (
     <Table.Row>
       <Item>{booking.cabins.cabinName}</Item>
@@ -93,23 +108,45 @@ export default function BookingsRow({ booking }) {
       <Item>{formatCurrency(booking.totalPrice)}</Item>
       <Item>
         <FlexRight>
-          <Menus>
-            <Menus.Menu>
-              <Menus.Toggle name={booking.cabinId} />
-              <Menus.List name={booking.cabinId}>
-                <Menus.Action>
-                  <FaEye /> See Details
-                </Menus.Action>
-                <Menus.Action>
-                  <PiCalendarCheckBold /> Check in
-                </Menus.Action>
-                <Menus.Action>
-                  {" "}
-                  <MdDelete /> Delete Booking
-                </Menus.Action>
-              </Menus.List>
-            </Menus.Menu>
-          </Menus>
+          <Modal>
+            <Menus>
+              <Menus.Menu>
+                <Menus.Toggle name={booking.cabinId} />
+                <Menus.List name={booking.cabinId}>
+                  <Menus.Action
+                    onClick={() => navigate(`/bookings/${booking.id}`)}
+                  >
+                    <FaEye /> See Details
+                  </Menus.Action>
+                  <Menus.Action
+                    onClick={() => navigate(`/checkin/${booking.id}`)}
+                  >
+                    <PiCalendarCheckBold /> Check in
+                  </Menus.Action>
+                  <Modal.Button
+                    opens="delete-booking"
+                    render={(click) => (
+                      <Menus.Action onClick={click}>
+                        {" "}
+                        <MdDelete /> Delete Booking
+                      </Menus.Action>
+                    )}
+                  />
+                </Menus.List>
+                <Modal.Content
+                  name="delete-booking"
+                  render={(close) => (
+                    <ConfirmDelete
+                      onClose={close}
+                      resourceName={`Booking #${booking.id}`}
+                      onConfirm={() => deleteCurrentBooking(booking.id)}
+                      disabled={isLoading}
+                    />
+                  )}
+                />
+              </Menus.Menu>
+            </Menus>
+          </Modal>
         </FlexRight>
       </Item>
     </Table.Row>

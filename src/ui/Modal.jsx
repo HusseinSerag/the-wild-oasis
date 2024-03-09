@@ -47,7 +47,6 @@ export default function Modal({ children }) {
     setIsModalOpen(name);
   }
   function closeModal() {
-    console.log("called");
     setIsModalOpen("");
   }
   return (

@@ -38,7 +38,7 @@ export default function PageNotFound() {
       </ButtonWrapper>
       <Row>
         <span>
-          unfortunately, this page that you requested doesn&apos;t exist
+          unfortunately the page that you requested doesn&apos;t exist
         </span>
         <span>Please go back or contact us!</span>
       </Row>

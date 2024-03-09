@@ -43,3 +43,11 @@ export async function getBookings(filter, order, page) {
 
   return { booking, count };
 }
+
+export async function deleteBooking(id) {
+  const { error } = await supabase.from("bookings").delete().eq("id", id);
+
+  if (error) {
+    ErrorHandle("Error occured while deleting cabin!");
+  }
+}

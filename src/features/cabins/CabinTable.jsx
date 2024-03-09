@@ -5,13 +5,14 @@ import useCabins from "./useCabins";
 import Table from "../../ui/Table";
 import Menus from "../../ui/Menus";
 import { useSearchParams } from "react-router-dom";
+import Heading from "../../ui/Heading";
 
 export default function CabinTable() {
   const { isLoading, error, cabins } = useCabins();
   const [searchParams] = useSearchParams();
 
   if (isLoading) return <Spinner />;
-
+  if (error) return <Heading>{error.message}</Heading>;
   const discount = searchParams.get("discount");
   const sort = searchParams.get("sort");
 
