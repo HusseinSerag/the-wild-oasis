@@ -39,7 +39,7 @@ export default function Navbar() {
         <Logo />
       </LogoDisplay>
       <MainNav />
-      {/* <Uploader /> */}
+      <Uploader />
     </StyledNavbar>
   );
 }
