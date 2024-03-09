@@ -35,7 +35,7 @@ const StyledToggle = styled.button`
 
 const StyledList = styled.ul`
   position: absolute;
-  top: -60px;
+  top: -40px;
   left: -80px;
   background-color: var(--color-grey-0);
   box-shadow: var(--shadow-md);

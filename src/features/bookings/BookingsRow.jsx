@@ -15,6 +15,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteBooking } from "../../services/bookingsApi";
 import toast from "react-hot-toast";
 import { statusToTagName } from "../../util/constants";
+import useDeleteBooking from "./useDeleteBooking";
+import UseNavigateToSpecificPage from "../../hooks/UseGoBack";
 
 const FullName = styled.div`
   font-family: "Poppins";
@@ -64,18 +66,8 @@ const FlexRight = styled.div`
 `;
 
 export default function BookingsRow({ booking }) {
-  const navigate = useNavigate();
-  const queryClient = useQueryClient();
-  const { mutate: deleteCurrentBooking, isLoading } = useMutation({
-    mutationFn: deleteBooking,
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["bookings"],
-      });
-      toast.success("Booking deleted successfully");
-    },
-    onError: (error) => toast.error(error.message),
-  });
+  const { deleteCurrentBooking, isDeleting } = useDeleteBooking();
+  const go = UseNavigateToSpecificPage();
   return (
     <Table.Row>
       <Item>{booking.cabins.cabinName}</Item>
@@ -113,15 +105,11 @@ export default function BookingsRow({ booking }) {
               <Menus.Menu>
                 <Menus.Toggle name={booking.cabinId} />
                 <Menus.List name={booking.cabinId}>
-                  <Menus.Action
-                    onClick={() => navigate(`/bookings/${booking.id}`)}
-                  >
+                  <Menus.Action onClick={() => go(`/bookings/${booking.id}`)}>
                     <FaEye /> See Details
                   </Menus.Action>
                   {booking.status === "unconfirmed" && (
-                    <Menus.Action
-                      onClick={() => navigate(`/checkin/${booking.id}`)}
-                    >
+                    <Menus.Action onClick={() => go(`/checkin/${booking.id}`)}>
                       <PiCalendarCheckBold /> Check in
                     </Menus.Action>
                   )}
@@ -142,7 +130,7 @@ export default function BookingsRow({ booking }) {
                       onClose={close}
                       resourceName={`Booking #${booking.id}`}
                       onConfirm={() => deleteCurrentBooking(booking.id)}
-                      disabled={isLoading}
+                      disabled={isDeleting}
                     />
                   )}
                 />

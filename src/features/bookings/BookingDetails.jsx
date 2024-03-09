@@ -11,6 +11,7 @@ import Spinner from "../../ui/Spinner";
 import BookingBox from "./BookingBox";
 import Modal from "../../ui/Modal";
 import ConfirmDelete from "../../ui/ConfirmDelete";
+import useDeleteBooking from "./useDeleteBooking";
 const Container = styled.div`
   display: flex;
   justify-content: space-between;
@@ -48,9 +49,16 @@ const ButtonGroup = styled.div`
 export default function BookingDetails() {
   const go = UseNavigateToSpecificPage();
   const { booking, isLoading, error } = useBooking();
+  const { deleteCurrentBooking, isDeleting } = useDeleteBooking();
 
   if (isLoading) return <Spinner />;
   if (error) return <Heading>{error.message}</Heading>;
+
+  async function handleDelete() {
+    deleteCurrentBooking(booking.id, {
+      onSuccess: () => go("/bookings"),
+    });
+  }
   return (
     <>
       <Container>
@@ -92,8 +100,8 @@ export default function BookingDetails() {
               <ConfirmDelete
                 onClose={close}
                 resourceName={`Booking #${booking.id}`}
-                onConfirm={() => console.log("clicked")}
-                disabled={isLoading}
+                onConfirm={handleDelete}
+                disabled={isDeleting}
               />
             )}
           />
