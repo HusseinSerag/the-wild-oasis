@@ -31,7 +31,7 @@ export default function PageNotFound() {
   const goBack = UseGoBack();
   return (
     <Container>
-      <ButtonWrapper onClick={goBack}>
+      <ButtonWrapper onClick={() => goBack()}>
         <Button variation="secondary" size="sm">
           Return
         </Button>

@@ -58,17 +58,21 @@ export default function BookingDetails() {
             {booking.status.replace("-", " ")}
           </Tag>
         </HeadingGroup>
-        <Button variation="secondary" onClick={go}>
+        <Button variation="secondary" onClick={() => go()}>
           <FaArrowLeftLong />
           <Text>Back</Text>
         </Button>
       </Container>
       <BookingBox booking={booking} />
       <ButtonGroup>
-        <AppButton onClick={go} variation="primary" size="lg">
+        <AppButton
+          onClick={() => go(`/checkin/${booking.id}`)}
+          variation="primary"
+          size="lg"
+        >
           Check in
         </AppButton>
-        <AppButton onClick={go} variation="secondary" size="lg">
+        <AppButton onClick={() => go()} variation="secondary" size="lg">
           Back
         </AppButton>
       </ButtonGroup>

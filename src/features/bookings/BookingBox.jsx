@@ -79,12 +79,12 @@ const Price = styled.div`
   border-radius: var(--border-radius-md);
   font-size: 1.4rem;
   background-color: var(
-    --color-${(props) => (props.isPaid ? "green" : "yellow")}-100
+    --color-${(props) => (props.ispaid ? "green" : "yellow")}-100
   );
-  color: var(--color-${(props) => (props.isPaid ? "green" : "yellow")}-700);
+  color: var(--color-${(props) => (props.ispaid ? "green" : "yellow")}-700);
 
   & svg {
-    color: var(--color-${(props) => (props.isPaid ? "green" : "yellow")}-700);
+    color: var(--color-${(props) => (props.ispaid ? "green" : "yellow")}-700);
   }
 
   @media screen and (max-width: 768px) {
@@ -162,7 +162,7 @@ export default function BookingBox({
         <DataItem icon={<HiOutlineCheckCircle />} label="Breakfast included?">
           {hasBreakfast ? "Yes" : "No"}
         </DataItem>
-        <Price isPaid={isPaid}>
+        <Price ispaid={isPaid}>
           <DataItem icon={<HiOutlineCurrencyDollar />} label={`Total price`}>
             {formatCurrency(totalPrice)}
 
