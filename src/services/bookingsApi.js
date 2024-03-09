@@ -15,15 +15,22 @@ export async function getBooking(id) {
   return bookings;
 }
 
-export async function getBookings(filter, order, page) {
+export async function getBookings(filter, order, page, search) {
   const BASE_QUERY = supabase
     .from("bookings")
-    .select("*,cabins(cabinName),guests(fullName,email)", { count: "exact" });
-  let response;
+    .select("*,cabins(cabinName),guests!inner(fullName,email)", {
+      count: "exact",
+    });
+  let response = BASE_QUERY;
+
+  if (search !== "") {
+    response = response.ilike("guests.fullName", `%${search}%`);
+  }
+
   if (filter === "all") {
-    response = BASE_QUERY;
+    response = response;
   } else {
-    response = BASE_QUERY.eq("status", filter);
+    response = response.eq("status", filter);
   }
 
   if (order !== "") {

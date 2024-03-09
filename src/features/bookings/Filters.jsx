@@ -1,7 +1,8 @@
 import { useSearchParams } from "react-router-dom";
 import Operations from "../../ui/Operations";
+import { memo } from "react";
 
-export default function Filters() {
+const Filters = memo(function Filters() {
   const [searchParams, setSearchParams] = useSearchParams();
   const status = searchParams.get("status");
 
@@ -48,4 +49,6 @@ export default function Filters() {
       </Operations>
     </>
   );
-}
+});
+
+export default Filters;

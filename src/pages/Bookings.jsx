@@ -1,3 +1,4 @@
+import BookingSearchInput from "../Contexts/BookingSearchInput";
 import BookingTableOperations from "../features/bookings/BookingTableOperations";
 import BookingsTable from "../features/bookings/BookingsTable";
 import Heading from "../ui/Heading";
@@ -5,7 +6,7 @@ import Row from "../ui/Row";
 
 export default function Bookings() {
   return (
-    <>
+    <BookingSearchInput>
       <Row type="h-responsive">
         <Heading as="h1">All Bookings</Heading>
         <BookingTableOperations />
@@ -13,6 +14,6 @@ export default function Bookings() {
       <Row>
         <BookingsTable />
       </Row>
-    </>
+    </BookingSearchInput>
   );
 }

@@ -4,13 +4,11 @@ import AppButton from "../../ui/Button";
 import Heading from "../../ui/Heading";
 
 import { FaArrowLeftLong } from "react-icons/fa6";
-import Tag from "../../ui/Tag";
-import { statusToTagName } from "../../util/constants";
-import useBooking from "./useBooking";
+
 import Spinner from "../../ui/Spinner";
-import BookingBox from "./BookingBox";
-import Modal from "../../ui/Modal";
-import ConfirmDelete from "../../ui/ConfirmDelete";
+import BookingBox from "../bookings/BookingBox";
+import useBooking from "../bookings/useBooking";
+import { useState } from "react";
 const Container = styled.div`
   display: flex;
   justify-content: space-between;
@@ -45,7 +43,9 @@ const ButtonGroup = styled.div`
   justify-content: flex-end;
   gap: 1rem;
 `;
-export default function BookingDetails() {
+export default function CheckInDetails() {
+  const [confirmPayment, setConfirmPayment] = useState(false);
+
   const go = UseNavigateToSpecificPage();
   const { booking, isLoading, error } = useBooking();
 
@@ -55,10 +55,7 @@ export default function BookingDetails() {
     <>
       <Container>
         <HeadingGroup>
-          <Heading as="h1">Booking #{booking.id}</Heading>
-          <Tag type={statusToTagName[booking.status]}>
-            {booking.status.replace("-", " ")}
-          </Tag>
+          <Heading as="h1">Check in booking #{booking.id}</Heading>
         </HeadingGroup>
         <Button variation="secondary" onClick={() => go()}>
           <FaArrowLeftLong />
@@ -67,38 +64,9 @@ export default function BookingDetails() {
       </Container>
       <BookingBox booking={booking} />
       <ButtonGroup>
-        {booking.status === "unconfirmed" && (
-          <AppButton
-            onClick={() => go(`/checkin/${booking.id}`)}
-            variation="primary"
-            size="lg"
-          >
-            Check in
-          </AppButton>
-        )}
-        <Modal>
-          <Modal.Button
-            opens="delete"
-            render={(click) => (
-              <AppButton onClick={click} variation="danger" size="lg">
-                Delete booking
-              </AppButton>
-            )}
-          />
-
-          <Modal.Content
-            name="delete"
-            render={(close) => (
-              <ConfirmDelete
-                onClose={close}
-                resourceName={`Booking #${booking.id}`}
-                onConfirm={() => console.log("clicked")}
-                disabled={isLoading}
-              />
-            )}
-          />
-        </Modal>
-
+        <AppButton variation="primary" size="lg" disabled={!confirmPayment}>
+          Check in Booking # {booking.id}
+        </AppButton>
         <AppButton onClick={() => go()} variation="secondary" size="lg">
           Back
         </AppButton>

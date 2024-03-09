@@ -50,6 +50,9 @@ const Button = styled.button`
   ${(props) => size[props.size]}
   ${(props) => variation[props.variation]};
   box-shadow: var(--shadow-sm);
+  &:disabled {
+    cursor: not-allowed;
+  }
 `;
 
 Button.defaultProps = {

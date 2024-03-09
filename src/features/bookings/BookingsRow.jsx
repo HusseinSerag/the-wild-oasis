@@ -72,7 +72,7 @@ export default function BookingsRow({ booking }) {
       queryClient.invalidateQueries({
         queryKey: ["bookings"],
       });
-      toast.success("Cabin deleted successfully");
+      toast.success("Booking deleted successfully");
     },
     onError: (error) => toast.error(error.message),
   });
@@ -118,11 +118,13 @@ export default function BookingsRow({ booking }) {
                   >
                     <FaEye /> See Details
                   </Menus.Action>
-                  <Menus.Action
-                    onClick={() => navigate(`/checkin/${booking.id}`)}
-                  >
-                    <PiCalendarCheckBold /> Check in
-                  </Menus.Action>
+                  {booking.status === "unconfirmed" && (
+                    <Menus.Action
+                      onClick={() => navigate(`/checkin/${booking.id}`)}
+                    >
+                      <PiCalendarCheckBold /> Check in
+                    </Menus.Action>
+                  )}
                   <Modal.Button
                     opens="delete-booking"
                     render={(click) => (

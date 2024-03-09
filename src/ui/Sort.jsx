@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { useSearchParams } from "react-router-dom";
 import styled from "styled-components";
 
@@ -12,7 +13,7 @@ const Select = styled.select`
   width: 100%;
 `;
 
-export default function Sort({ options, name, ...props }) {
+const Sort = memo(function Sort({ options, name, ...props }) {
   const [searchParams, setSearchParams] = useSearchParams();
 
   function handleSort(value) {
@@ -32,4 +33,6 @@ export default function Sort({ options, name, ...props }) {
       ))}
     </Select>
   );
-}
+});
+
+export default Sort;
