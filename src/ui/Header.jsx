@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import Logo from "./Logo";
 import Row from "./Row";
+import Logout from "../features/authentication/Logout";
 
 const StyledHeader = styled.header`
   background-color: var(--color-grey-0);
@@ -23,6 +24,9 @@ export default function Header() {
         <DisplayLogo>
           <Logo />
         </DisplayLogo>
+      </Row>
+      <Row type="horizontal">
+        <Logout />
       </Row>
     </StyledHeader>
   );
