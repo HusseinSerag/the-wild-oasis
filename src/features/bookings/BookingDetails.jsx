@@ -12,6 +12,8 @@ import BookingBox from "./BookingBox";
 import Modal from "../../ui/Modal";
 import ConfirmDelete from "../../ui/ConfirmDelete";
 import useDeleteBooking from "./useDeleteBooking";
+import useCheckout from "../check-in-out/useCheckout";
+import { useSearchParams } from "react-router-dom";
 const Container = styled.div`
   display: flex;
   justify-content: space-between;
@@ -50,14 +52,19 @@ export default function BookingDetails() {
   const go = UseNavigateToSpecificPage();
   const { booking, isLoading, error } = useBooking();
   const { deleteCurrentBooking, isDeleting } = useDeleteBooking();
+  const { checkoutGuest, isLoading: isCheckingOut } = useCheckout();
 
   if (isLoading) return <Spinner />;
   if (error) return <Heading>{error.message}</Heading>;
 
-  async function handleDelete() {
+  function handleDelete() {
     deleteCurrentBooking(booking.id, {
       onSuccess: () => go("/bookings"),
     });
+  }
+
+  function handleCheckout() {
+    checkoutGuest(booking.id);
   }
   return (
     <>
@@ -82,6 +89,11 @@ export default function BookingDetails() {
             size="lg"
           >
             Check in
+          </AppButton>
+        )}
+        {booking.status === "checked-in" && (
+          <AppButton onClick={handleCheckout} variation="primary" size="lg">
+            Check out
           </AppButton>
         )}
         <Modal>

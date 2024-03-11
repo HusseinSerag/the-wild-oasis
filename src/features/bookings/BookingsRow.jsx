@@ -18,6 +18,7 @@ import { statusToTagName } from "../../util/constants";
 import useDeleteBooking from "./useDeleteBooking";
 import UseNavigateToSpecificPage from "../../hooks/UseGoBack";
 import { IoDownloadOutline } from "react-icons/io5";
+import useCheckout from "../check-in-out/useCheckout";
 
 const FullName = styled.div`
   font-family: "Poppins";
@@ -69,8 +70,10 @@ const FlexRight = styled.div`
 export default function BookingsRow({ booking }) {
   const { deleteCurrentBooking, isDeleting } = useDeleteBooking();
   const go = UseNavigateToSpecificPage();
-
-  function handleCheckout() {}
+  const { checkoutGuest, isLoading } = useCheckout();
+  function handleCheckout() {
+    checkoutGuest(booking.id);
+  }
   return (
     <Table.Row>
       <Item>{booking.cabins.cabinName}</Item>
@@ -108,23 +111,35 @@ export default function BookingsRow({ booking }) {
               <Menus.Menu>
                 <Menus.Toggle name={booking.cabinId} />
                 <Menus.List name={booking.cabinId}>
-                  <Menus.Action onClick={() => go(`/bookings/${booking.id}`)}>
+                  <Menus.Action
+                    disabled={isLoading || isDeleting}
+                    onClick={() => go(`/bookings/${booking.id}`)}
+                  >
                     <FaEye /> See Details
                   </Menus.Action>
                   {booking.status === "unconfirmed" && (
-                    <Menus.Action onClick={() => go(`/checkin/${booking.id}`)}>
+                    <Menus.Action
+                      disabled={isLoading || isDeleting}
+                      onClick={() => go(`/checkin/${booking.id}`)}
+                    >
                       <PiCalendarCheckBold /> Check in
                     </Menus.Action>
                   )}
                   {booking.status === "checked-in" && (
-                    <Menus.Action onClick={handleCheckout}>
+                    <Menus.Action
+                      disabled={isLoading || isDeleting}
+                      onClick={handleCheckout}
+                    >
                       <IoDownloadOutline /> Check out
                     </Menus.Action>
                   )}
                   <Modal.Button
                     opens="delete-booking"
                     render={(click) => (
-                      <Menus.Action onClick={click}>
+                      <Menus.Action
+                        disabled={isLoading || isDeleting}
+                        onClick={click}
+                      >
                         {" "}
                         <MdDelete /> Delete Booking
                       </Menus.Action>

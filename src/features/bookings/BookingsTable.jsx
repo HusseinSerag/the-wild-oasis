@@ -14,7 +14,8 @@ export default function BookingsTable() {
   if (error) return <Heading>{error.message}</Heading>;
   const { booking: bookings, count } = data;
   const totalBookings = count;
-  const activePage = bookings.length;
+  const activePage = bookings?.length;
+
   return (
     <Table columns="140px 200px 240px 180px 160px 180px">
       <Table.Header>
@@ -25,10 +26,14 @@ export default function BookingsTable() {
         <Table.HeaderItem>amount</Table.HeaderItem>
         <Table.HeaderItem></Table.HeaderItem>
       </Table.Header>
-      <Table.Body
-        data={bookings}
-        render={(booking) => <BookingsRow booking={booking} key={booking.id} />}
-      ></Table.Body>
+      {
+        <Table.Body
+          data={bookings}
+          render={(booking) => (
+            <BookingsRow booking={booking} key={booking.id} />
+          )}
+        ></Table.Body>
+      }
       <Table.Footer>
         {bookings?.length > 0 && (
           <Pagination activePage={activePage} total={totalBookings} />

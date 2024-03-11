@@ -1,4 +1,6 @@
+/* eslint-disable react/prop-types */
 import { createContext, useContext } from "react";
+import { useSearchParams } from "react-router-dom";
 import styled, { css } from "styled-components";
 
 const TableContext = createContext();
@@ -117,8 +119,14 @@ function TableRow({ children }) {
 }
 
 function Body({ data, render }) {
-  if (!data.length) {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const page = +searchParams.get("page");
+  if (!data.length && page === 0) {
     return <Empty>No Data to show at this moment</Empty>;
+  } else if (page > 0 && !data.length) {
+    searchParams.set("page", page - 1);
+    setSearchParams(searchParams);
+    return null;
   }
   return <StyledBody>{data.map(render)}</StyledBody>;
 }

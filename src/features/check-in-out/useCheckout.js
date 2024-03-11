@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 
 export default function useCheckout() {
   const queryClient = useQueryClient();
-  const { isLoading, mutate: checkinGuest } = useMutation({
+  const { isLoading, mutate: checkoutGuest } = useMutation({
     mutationFn: checkout,
     onSuccess: (data) => {
       queryClient.invalidateQueries({
@@ -16,5 +16,5 @@ export default function useCheckout() {
     onError: (err) => toast.error(err.message),
   });
 
-  return { isLoading, checkinGuest };
+  return { isLoading, checkoutGuest };
 }
