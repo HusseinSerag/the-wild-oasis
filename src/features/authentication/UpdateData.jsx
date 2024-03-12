@@ -8,6 +8,7 @@ import Button from "../../ui/Button";
 import FileInput from "../../ui/FileInput";
 import { useUsers } from "./useUsers";
 import useUpdateData from "./useUpdateData";
+import toast from "react-hot-toast";
 
 export default function UpdateData() {
   const { user } = useUsers();
@@ -19,8 +20,9 @@ export default function UpdateData() {
   function onSubmit(data) {
     const image = data.image[0];
     if (!image && data.fullName === user.user_metadata.fullName) {
+      toast("Nothing changed!");
       return;
-    } else if (image) {
+    } else if (image || data.fullName !== user.user_metadata.fullName) {
       updateData(
         { avatarSrc: image, fullName: data.fullName },
         { onSuccess: () => reset() }

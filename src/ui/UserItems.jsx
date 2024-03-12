@@ -22,7 +22,6 @@ export default function UserItems() {
   const { user } = useUsers();
   const { fullName, avatar } = user.user_metadata;
 
-  console.log(avatar);
   return (
     <StyledUserItems>
       <Avatar

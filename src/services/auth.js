@@ -53,6 +53,9 @@ export async function signup(email, password, fullName) {
 export async function updateUser({ avatarSrc, fullName }) {
   let image = avatarSrc;
   if (avatarSrc) {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     const avatarName = `${Math.random()}${avatarSrc.name.replace("/", "")}`;
     const { data: imgSrc, error } = await supabase.storage
       .from("avatars")
@@ -62,6 +65,11 @@ export async function updateUser({ avatarSrc, fullName }) {
       ErrorHandle("Problem happened while the image is being uploaded");
     }
 
+    if (user.user_metadata?.avatar?.length !== 0) {
+      const path = user.user_metadata.avatar.split("/avatars/")[1];
+
+      await deleteAssetFromBucket(path);
+    }
     image = getPublicURL(imgSrc.path);
   }
 
@@ -91,4 +99,8 @@ function getPublicURL(path) {
   const { data } = supabase.storage.from("avatars").getPublicUrl(path);
   const { publicUrl } = data;
   return publicUrl;
+}
+
+async function deleteAssetFromBucket(path) {
+  await supabase.storage.from("avatars").remove(path);
 }
