@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+
 import styled from "styled-components";
 const Container = styled.div`
   background-color: var(--color-grey-0);

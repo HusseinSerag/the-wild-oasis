@@ -1,16 +1,32 @@
 import styled from "styled-components";
-import Filters from "./Filters";
+
 import Sort from "../../ui/Sort";
+import Filters from "../../ui/Filters";
 
 const Container = styled.div`
   display: flex;
   gap: 0.6rem;
   flex-direction: column;
 `;
+
+const options = [
+  {
+    name: "all",
+    text: "All",
+  },
+  {
+    name: "no-discount",
+    text: "No discount",
+  },
+  {
+    name: "discount",
+    text: "With discount",
+  },
+];
 export default function CabinOperations() {
   return (
     <Container>
-      <Filters />
+      <Filters keyValue="discount" initialValue="all" options={options} />
       <Sort
         name="sort"
         options={[

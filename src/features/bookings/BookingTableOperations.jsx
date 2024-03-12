@@ -1,8 +1,7 @@
 import styled from "styled-components";
-import Filters from "./Filters";
+import Filters from "../../ui/Filters";
 import Sort from "../../ui/Sort";
 import { useSearch } from "../../Contexts/BookingSearchInput";
-import { useMemo } from "react";
 
 const Container = styled.div`
   display: flex;
@@ -16,20 +15,37 @@ const Input = styled.input`
   padding: 0.4rem 0.8rem;
   background-color: var(--color-grey-0);
 `;
+
+const filter = [
+  {
+    name: "all",
+    text: "All",
+  },
+  {
+    name: "checked-out",
+    text: "Checked out",
+  },
+  {
+    name: "checked-in",
+    text: "Checked in",
+  },
+  {
+    name: "unconfirmed",
+    text: "Unconfirmed",
+  },
+];
+const options = [
+  { value: "desc-startDate", label: "Sort by date (recent first)" },
+  { value: "asc-startDate", label: "Sort by date (earlier first)" },
+  { value: "asc-totalPrice", label: "Sort by amount (low first)" },
+  { value: "desc-totalPrice", label: "Sort by amount (high first)" },
+];
 export default function BookingTableOperations() {
   const { search, onSearch } = useSearch();
-  const options = useMemo(
-    () => [
-      { value: "desc-startDate", label: "Sort by date (recent first)" },
-      { value: "asc-startDate", label: "Sort by date (earlier first)" },
-      { value: "asc-totalPrice", label: "Sort by amount (low first)" },
-      { value: "desc-totalPrice", label: "Sort by amount (high first)" },
-    ],
-    []
-  );
+
   return (
     <Container>
-      <Filters />
+      <Filters keyValue="status" initialValue="all" options={filter} />
       <Sort name="sort" options={options} />
       <Input
         placeholder="Search by guest name..."
