@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { useDarkMode } from "../Contexts/DarkModeContext";
 
 const Img = styled.img`
   height: 100%;
@@ -6,7 +7,13 @@ const Img = styled.img`
 `;
 
 function Logo() {
-  return <Img src="/logo-light.png" alt="Logo" />;
+  const { isDarkMode } = useDarkMode();
+  return (
+    <Img
+      src={`${isDarkMode ? "/logo-dark.png" : "/logo-light.png"}`}
+      alt="Logo"
+    />
+  );
 }
 
 export default Logo;

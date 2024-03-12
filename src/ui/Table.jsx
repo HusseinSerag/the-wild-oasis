@@ -38,7 +38,6 @@ const HeaderItem = styled.div`
   }
 `;
 const StyledBody = styled.section`
-  margin: 0.4rem 0;
   background-color: var(--color-grey-0);
 `;
 

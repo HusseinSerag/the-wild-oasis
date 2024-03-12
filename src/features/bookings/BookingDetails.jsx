@@ -13,7 +13,7 @@ import Modal from "../../ui/Modal";
 import ConfirmDelete from "../../ui/ConfirmDelete";
 import useDeleteBooking from "./useDeleteBooking";
 import useCheckout from "../check-in-out/useCheckout";
-import { useSearchParams } from "react-router-dom";
+
 const Container = styled.div`
   display: flex;
   justify-content: space-between;

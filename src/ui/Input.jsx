@@ -9,6 +9,7 @@ const Input = styled.input`
   max-width: 35rem;
   min-width: 20rem;
   border-radius: var(--border-radius-sm);
+  background-color: var(--color-grey-0);
 `;
 
 export default Input;

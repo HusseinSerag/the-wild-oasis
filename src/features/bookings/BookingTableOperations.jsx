@@ -14,6 +14,7 @@ const Input = styled.input`
   border-radius: var(--border-radius-md);
   border: 1px solid var(--color-grey-400);
   padding: 0.4rem 0.8rem;
+  background-color: var(--color-grey-0);
 `;
 export default function BookingTableOperations() {
   const { search, onSearch } = useSearch();

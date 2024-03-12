@@ -7,7 +7,7 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   backdrop-filter: blur(5px);
-  background: var(--color-silver-700) 0.4;
+  background: var(--color-grey-0) 0.4;
 `;
 
 const Loader = styled.div`
