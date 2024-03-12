@@ -1,16 +1,12 @@
 import styled from "styled-components";
 import Stats from "./Stats";
-import { useStats } from "./useStats";
 import { HiOutlineShoppingBag } from "react-icons/hi2";
 import { FaDollarSign } from "react-icons/fa6";
 import { FaChartBar } from "react-icons/fa";
 
 import { IoCalendarOutline } from "react-icons/io5";
-import Spinner from "../../ui/Spinner";
-import Heading from "../../ui/Heading";
-import { useStays } from "./useStays";
+
 import { formatCurrency } from "../../util/helpers";
-import useCabins from "../cabins/useCabins";
 
 const Items = styled.div`
   display: grid;
@@ -18,24 +14,7 @@ const Items = styled.div`
   justify-content: center;
   gap: 1.5rem;
 `;
-export default function DashboardStats() {
-  const {
-    isLoading: isStats,
-    error,
-    stats: bookings,
-    last: numNights,
-  } = useStats();
-  const {
-    isLoading: isStays,
-    error: staysError,
-    confirmed: stays,
-  } = useStays();
-
-  const { cabins, isLoading: isCabins, error: cabinError } = useCabins();
-  if (isStats || isStays || isCabins) return <Spinner />;
-  if (error || staysError || cabinError)
-    return <Heading as="h2">Error occured while fetching data</Heading>;
-
+export default function DashboardStats({ bookings, stays, numNights, cabins }) {
   const totalBookings = bookings.length;
   const totalSales = bookings.reduce(
     (prev, current) => current.totalPrice + prev,

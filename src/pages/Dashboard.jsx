@@ -6,15 +6,15 @@ import Row from "../ui/Row";
 
 const options = [
   {
-    name: 7,
+    name: "7",
     text: "last 7 days",
   },
   {
-    name: 30,
+    name: "30",
     text: "last 30 days",
   },
   {
-    name: 90,
+    name: "90",
     text: "last 90 days",
   },
 ];

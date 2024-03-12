@@ -8,7 +8,7 @@ const StyledStat = styled.div`
 
   padding: 1.6rem;
   display: grid;
-  grid-template-columns: 6.4rem 1fr;
+  grid-template-columns: 5rem 1fr;
   grid-template-rows: auto auto;
   column-gap: 1.6rem;
   row-gap: 0.4rem;
@@ -42,7 +42,7 @@ const Title = styled.h5`
 `;
 
 const Value = styled.p`
-  font-size: 2.4rem;
+  font-size: 2rem;
   line-height: 1;
   font-weight: 500;
 `;
