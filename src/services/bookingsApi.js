@@ -1,5 +1,5 @@
 import { PAGE_SIZE } from "../util/constants";
-import { ErrorHandle } from "../util/helpers";
+import { ErrorHandle, getToday } from "../util/helpers";
 import supabase from "./supabase";
 
 export async function getBooking(id) {
@@ -57,4 +57,32 @@ export async function deleteBooking(id) {
   if (error) {
     ErrorHandle("Error occured while deleting cabin!");
   }
+}
+
+export async function getStats(date) {
+  const { data: bookings, error } = await supabase
+    .from("bookings")
+    .select("totalPrice, extraPrice ,created_at")
+    .gte("created_at", date)
+    .lte("created_at", getToday({ end: true }));
+
+  if (error) {
+    ErrorHandle("Problem happened while fetching data!");
+  }
+
+  return bookings;
+}
+
+export async function getStays(date) {
+  const { data: bookings, error } = await supabase
+    .from("bookings")
+    .select("* , guests(fullName)")
+    .gte("startDate", date)
+    .lte("startDate", getToday({ end: true }));
+
+  if (error) {
+    ErrorHandle("Problem happened while fetching data!");
+  }
+
+  return bookings;
 }
