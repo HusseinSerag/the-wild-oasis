@@ -6,11 +6,11 @@ const size = {
     padding: 0.5rem 1rem;
   `,
   md: css`
-    font-size: 1.4rem;
-    padding: 0.9rem 1.4rem;
+    font-size: 1.5rem;
+    padding: 1.1rem 1.5rem;
   `,
   lg: css`
-    font-size: 1.6rem;
+    font-size: 1.8rem;
     padding: 1.2rem 1.7rem;
   `,
 };

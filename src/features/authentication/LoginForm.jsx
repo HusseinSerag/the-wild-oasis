@@ -31,43 +31,37 @@ export default function LoginForm() {
     handleSubmit,
     register,
     formState: { errors },
+    reset,
   } = useForm();
   const { loginUser, isPending: isLoggingIn } = useLogin();
 
   function onSubmit(data) {
-    loginUser(data);
+    loginUser(data, {
+      onSettled: () => reset(),
+    });
   }
   return (
     <Container>
       <StyledLoginForm onSubmit={handleSubmit(onSubmit)}>
-        <LoginRow
-          label="Email"
-          text="Email Address"
-          type="email"
-          error={errors.email}
-        >
+        <LoginRow label="Email" text="Email Address" error={errors.email}>
           {
             <Input
               id="Email"
+              type="email"
               {...register("email", {
                 required: "This field is required",
               })}
               autoComplete="username"
               disabled={isLoggingIn}
-              defaultValue="hussein@gmail.com"
             />
           }
         </LoginRow>
 
-        <LoginRow
-          label="password"
-          text="Password"
-          type="password"
-          error={errors.password}
-        >
+        <LoginRow label="password" text="Password" error={errors.password}>
           {
             <Input
               id="password"
+              type="password"
               {...register("password", {
                 required: "This field is required",
                 minLength: {
@@ -77,7 +71,6 @@ export default function LoginForm() {
               })}
               autoComplete="password"
               disabled={isLoggingIn}
-              defaultValue="123456"
             />
           }
         </LoginRow>

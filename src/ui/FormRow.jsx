@@ -6,6 +6,10 @@ const StyledFormRow = styled.div`
   grid-template-columns: 12rem 2fr 1fr;
   gap: 2.4rem;
   padding: 2rem 4rem;
+  &:has(button) {
+    display: flex;
+    gap: 1.5rem;
+  }
   @media screen and (max-width: 768px) {
     display: flex;
     flex-direction: column;

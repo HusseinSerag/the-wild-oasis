@@ -9,7 +9,7 @@ export default function useLogin() {
   const { mutate: loginUser, isPending } = useMutation({
     mutationFn: login,
     onSuccess: (data) => {
-      queryClient.setQueryData("user", data.user);
+      queryClient.setQueryData(["user"], data.user);
       go("/dashboard");
 
       toast.success("You have successfully logged in!");

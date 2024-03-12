@@ -19,7 +19,6 @@ export default function ProtectedRoute() {
   const isAuth = user?.role === "authenticated";
   const go = UseNavigateToSpecificPage();
 
-  console.log(isAuth);
   useEffect(
     function () {
       if (!isAuth && !isLoading && fetchStatus !== "fetching") go("/login");
