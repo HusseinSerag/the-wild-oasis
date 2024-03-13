@@ -116,10 +116,28 @@ const GlobalStyles = createGlobalStyle`
   transition: background-color 0.3s, border 0.3s;
 }
 
+html,body{
+  height: 100%;
+    width: 100%;
+    height: 100vh;
+    width: 100vw;
+    margin:0;
+    padding:0;
+    
+    overflow: hidden;
+}
 html {
   font-size: 62.5%;
 }
-
+#root{
+  position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    padding:0;
+    margin:0;
+}
 body {
   font-family: "Poppins", sans-serif;
   color: var(--color-grey-700);
