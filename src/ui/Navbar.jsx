@@ -20,6 +20,7 @@ const StyledNavbar = styled.nav`
     flex-direction: row;
     align-items: center;
     justify-content: space-evenly;
+    height: 100%;
   }
 `;
 

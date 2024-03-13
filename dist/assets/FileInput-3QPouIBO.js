@@ -1,4 +1,4 @@
-import{u as r}from"./index-BdrJt9Co.js";const o=r.input.attrs({type:"file"})`
+import{u as r}from"./index-DYqljV5M.js";const o=r.input.attrs({type:"file"})`
   font-size: 1.4rem;
   border-radius: var(--border-radius-sm);
 
