@@ -112,7 +112,6 @@ function MenuList({ children, name }) {
   const { active, close } = useContext(MenuContext);
   const { ref } = useClickOutsideModal(close, false);
 
-  console.log(active, name);
   if (active !== name) return null;
 
   return <StyledList ref={ref}>{children}</StyledList>;
