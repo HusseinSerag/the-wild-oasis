@@ -43,7 +43,7 @@ const Header = styled(Heading)`
 `;
 function Today() {
   const { isLoading, activeUsers, error } = useActive();
-  console.log(activeUsers);
+
   return (
     <StyledToday>
       <Row type="horizontal">

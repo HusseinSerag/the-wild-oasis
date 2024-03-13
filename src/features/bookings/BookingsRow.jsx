@@ -107,58 +107,56 @@ export default function BookingsRow({ booking }) {
       <Item>
         <FlexRight>
           <Modal>
-            <Menus>
-              <Menus.Menu>
-                <Menus.Toggle name={booking.cabinId} />
-                <Menus.List name={booking.cabinId}>
+            <Menus.Menu>
+              <Menus.Toggle name={booking.id} />
+              <Menus.List name={booking.id}>
+                <Menus.Action
+                  disabled={isLoading || isDeleting}
+                  onClick={() => go(`/bookings/${booking.id}`)}
+                >
+                  <FaEye /> See Details
+                </Menus.Action>
+                {booking.status === "unconfirmed" && (
                   <Menus.Action
                     disabled={isLoading || isDeleting}
-                    onClick={() => go(`/bookings/${booking.id}`)}
+                    onClick={() => go(`/checkin/${booking.id}`)}
                   >
-                    <FaEye /> See Details
+                    <PiCalendarCheckBold /> Check in
                   </Menus.Action>
-                  {booking.status === "unconfirmed" && (
+                )}
+                {booking.status === "checked-in" && (
+                  <Menus.Action
+                    disabled={isLoading || isDeleting}
+                    onClick={handleCheckout}
+                  >
+                    <IoDownloadOutline /> Check out
+                  </Menus.Action>
+                )}
+                <Modal.Button
+                  opens="delete-booking"
+                  render={(click) => (
                     <Menus.Action
                       disabled={isLoading || isDeleting}
-                      onClick={() => go(`/checkin/${booking.id}`)}
+                      onClick={click}
                     >
-                      <PiCalendarCheckBold /> Check in
+                      {" "}
+                      <MdDelete /> Delete Booking
                     </Menus.Action>
-                  )}
-                  {booking.status === "checked-in" && (
-                    <Menus.Action
-                      disabled={isLoading || isDeleting}
-                      onClick={handleCheckout}
-                    >
-                      <IoDownloadOutline /> Check out
-                    </Menus.Action>
-                  )}
-                  <Modal.Button
-                    opens="delete-booking"
-                    render={(click) => (
-                      <Menus.Action
-                        disabled={isLoading || isDeleting}
-                        onClick={click}
-                      >
-                        {" "}
-                        <MdDelete /> Delete Booking
-                      </Menus.Action>
-                    )}
-                  />
-                </Menus.List>
-                <Modal.Content
-                  name="delete-booking"
-                  render={(close) => (
-                    <ConfirmDelete
-                      onClose={close}
-                      resourceName={`Booking #${booking.id}`}
-                      onConfirm={() => deleteCurrentBooking(booking.id)}
-                      disabled={isDeleting}
-                    />
                   )}
                 />
-              </Menus.Menu>
-            </Menus>
+              </Menus.List>
+              <Modal.Content
+                name="delete-booking"
+                render={(close) => (
+                  <ConfirmDelete
+                    onClose={close}
+                    resourceName={`Booking #${booking.id}`}
+                    onConfirm={() => deleteCurrentBooking(booking.id)}
+                    disabled={isDeleting}
+                  />
+                )}
+              />
+            </Menus.Menu>
           </Modal>
         </FlexRight>
       </Item>

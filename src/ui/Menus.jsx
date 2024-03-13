@@ -78,8 +78,11 @@ const MenuContext = createContext();
 export default function Menus({ children }) {
   const [active, setActive] = useState("");
 
-  function toggle(name) {
-    setActive((active) => (active !== name ? name : ""));
+  function toggle(e, name) {
+    e.stopPropagation();
+    setActive((active) => {
+      return active === name ? "" : name;
+    });
   }
   function close() {
     setActive("");
@@ -100,16 +103,18 @@ function Toggle({ name }) {
 
   return (
     <StyledToggle>
-      <HiDotsVertical onClick={() => toggle(name)} />
+      <HiDotsVertical onClick={(e) => toggle(e, name)} />
     </StyledToggle>
   );
 }
 
 function MenuList({ children, name }) {
   const { active, close } = useContext(MenuContext);
-  const { ref } = useClickOutsideModal(close);
+  const { ref } = useClickOutsideModal(close, false);
 
+  console.log(active, name);
   if (active !== name) return null;
+
   return <StyledList ref={ref}>{children}</StyledList>;
 }
 function Action({ children, onClick }) {

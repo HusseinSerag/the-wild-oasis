@@ -6,6 +6,7 @@ import BookingsRow from "./BookingsRow";
 import { useBookings } from "./useBookings";
 import Pagination from "../../ui/Pagination";
 import Heading from "../../ui/Heading";
+import Menus from "../../ui/Menus";
 
 export default function BookingsTable() {
   const { data, isLoading, error } = useBookings();
@@ -27,12 +28,14 @@ export default function BookingsTable() {
         <Table.HeaderItem></Table.HeaderItem>
       </Table.Header>
       {
-        <Table.Body
-          data={bookings}
-          render={(booking) => (
-            <BookingsRow booking={booking} key={booking.id} />
-          )}
-        ></Table.Body>
+        <Menus>
+          <Table.Body
+            data={bookings}
+            render={(booking) => (
+              <BookingsRow booking={booking} key={booking.id} />
+            )}
+          ></Table.Body>
+        </Menus>
       }
       <Table.Footer>
         {bookings?.length > 0 && (
