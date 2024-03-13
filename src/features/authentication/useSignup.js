@@ -7,8 +7,7 @@ export default function useSignup() {
     mutationFn: ({ fullName, email, password }) =>
       signup(email, password, fullName),
 
-    onSuccess: (user) =>
-      toast.success("Account successfully created! Please verify your email!"),
+    onSuccess: (user) => toast.success("Account successfully created!"),
   });
   return { signupUser, isPending };
 }

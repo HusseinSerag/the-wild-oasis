@@ -17,6 +17,9 @@ const StyledLayout = styled.div`
   grid-template-columns: [line1] 1fr [line2] 4fr [line3];
   grid-template-rows: auto 1fr;
   height: 100vh;
+  height: 100svh;
+  max-height: 100vh;
+  max-height: 100svh;
 
   @media screen and (max-width: 768px) {
     grid-template-columns: 1fr;
