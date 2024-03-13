@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { createContext, useContext } from "react";
+import { createContext, useContext, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import styled, { css } from "styled-components";
 
@@ -65,10 +65,6 @@ const StyledTableRow = styled.div`
   font-weight: 600;
   font-family: "Sono";
 
-  &:not(:last-child) {
-    border-bottom: 1px solid var(--color-grey-100);
-  }
-
   @media screen and (max-width: 768px) {
     font-size: 1.4rem;
   }
@@ -120,12 +116,17 @@ function TableRow({ children }) {
 function Body({ data, render }) {
   const [searchParams, setSearchParams] = useSearchParams();
   const page = +searchParams.get("page");
+  useEffect(
+    function () {
+      if (page > 0 && !data.length) {
+        searchParams.set("page", page - 1);
+        setSearchParams(searchParams);
+      }
+    },
+    [data.length, page, searchParams, setSearchParams]
+  );
   if (!data.length && page === 0) {
     return <Empty>No Data to show at this moment</Empty>;
-  } else if (page > 0 && !data.length) {
-    searchParams.set("page", page - 1);
-    setSearchParams(searchParams);
-    return null;
   }
   return <StyledBody>{data.map(render)}</StyledBody>;
 }

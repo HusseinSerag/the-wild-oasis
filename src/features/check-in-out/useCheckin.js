@@ -11,6 +11,9 @@ export default function useCheckin() {
       queryClient.invalidateQueries({
         active: true,
       });
+      queryClient.refetchQueries({
+        queryKey: ["activity-today"],
+      });
 
       toast.success(`Booking #${data.id} successfully checked in`);
     },

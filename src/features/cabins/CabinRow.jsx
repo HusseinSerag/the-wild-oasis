@@ -69,7 +69,9 @@ export default function CabinRow({ cabin }) {
 
   return (
     <Table.Row role="row">
-      <Img src={image} />
+      <Item>
+        <Img src={image} />
+      </Item>
       <Item>
         <Cabin>{cabinName}</Cabin>
       </Item>

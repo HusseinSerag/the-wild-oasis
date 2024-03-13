@@ -14,7 +14,7 @@ export default function useLogin() {
 
       toast.success("You have successfully logged in!");
     },
-    onError: (error) => toast.error("Incorrect username or password"),
+    onError: (error) => toast.error(error.message),
   });
 
   return { loginUser, isPending };

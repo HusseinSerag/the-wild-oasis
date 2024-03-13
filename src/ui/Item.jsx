@@ -7,6 +7,9 @@ const Item = styled.div`
   display: flex;
   align-items: center;
 
+  border-bottom: 0.5px solid var(--color-grey-100);
+  border-top: 0.5px solid var(--color-grey-100);
+
   @media screen and (max-width: 1024px) {
     font-size: 1.5rem;
     padding: 1.7rem 1.4rem;

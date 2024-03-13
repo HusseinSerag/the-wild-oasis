@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import DurationChart from "./DurationChart";
+import Today from "../check-in-out/TodayActivity";
 
 const StyledDashboardList = styled.div`
   display: grid;
@@ -15,7 +16,7 @@ const StyledDashboardList = styled.div`
 export default function DashboardList({ stays }) {
   return (
     <StyledDashboardList>
-      <div>tody's activity</div>
+      <Today />
       <DurationChart stays={stays} />
     </StyledDashboardList>
   );

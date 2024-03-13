@@ -8,6 +8,11 @@ export default function Filters({ keyValue, initialValue, options }) {
   function handleValue(value) {
     searchParams.set(keyValue, value);
     setSearchParams(searchParams);
+    const page = searchParams.get("page");
+    if (page) {
+      searchParams.set("page", 0);
+      setSearchParams(searchParams);
+    }
   }
   return (
     <>

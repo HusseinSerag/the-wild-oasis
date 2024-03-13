@@ -36,6 +36,7 @@ const Item = styled.div`
   @media screen and (max-width: 768px) {
     font-size: 1.3rem;
     padding: 0.5rem;
+    min-width: 20rem;
   }
 `;
 

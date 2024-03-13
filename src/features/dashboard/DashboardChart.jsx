@@ -72,7 +72,7 @@ export default function DashboardChart({ numNights, bookings }) {
   return (
     <StyledDashboardChart>
       <Header as="h2">
-        Sales from {format(subDays(new Date(), numNights), "MMM dd y")} -{" "}
+        Sales from {format(subDays(new Date(), numNights - 1), "MMM dd y")} -{" "}
         {format(new Date(), "MMM dd y")}{" "}
       </Header>
 
