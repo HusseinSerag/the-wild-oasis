@@ -1,4 +1,4 @@
-import{u as r,j as o}from"./index-BnklpjbZ.js";const d=r.form`
+import{u as r,j as o}from"./index-CMlzn9vv.js";const d=r.form`
   font-size: 1.4rem;
 
   padding: 1.4rem 2rem;

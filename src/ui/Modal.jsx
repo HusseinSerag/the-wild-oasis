@@ -31,6 +31,7 @@ const Overlay = styled.div`
   position: absolute;
   inset: 0;
   background-color: var(--backdrop-color);
+  -webkit-backdrop-filter: blur(4px);
   backdrop-filter: blur(4px);
   z-index: 1000;
 `;
